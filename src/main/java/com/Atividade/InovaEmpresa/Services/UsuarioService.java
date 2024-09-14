@@ -2,6 +2,7 @@ package com.Atividade.InovaEmpresa.Services;
 
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
+import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,9 @@ public class UsuarioService {
     public UsuarioEntity save(UsuarioEntity usuarioEntity){
         try{
             usuarioEntity.setFlIdeia(false);
+            usuarioEntity.setRole(UsuarioRole.valueOf("COLABORADOR"));
             return usuarioRepository.save(usuarioEntity);
-        }catch(Exception e){
+        } catch(Exception e){
             System.out.println("Não foi possível salvar o usuario: "+ e.getMessage());
             return new UsuarioEntity();
         }
