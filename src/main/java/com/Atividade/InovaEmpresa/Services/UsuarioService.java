@@ -6,6 +6,7 @@ import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,7 +43,7 @@ public class UsuarioService {
             UsuarioEntity usuarioLogado = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
 
-            if ("ADMIN".equals(usuarioLogado.getRole())) {
+            if ("ADMIN".equals(usuarioLogado.getRole()) && usuarioEntity.getRole()!= usuarioExistente.getRole()) {
                 usuarioExistente.setRole(usuarioEntity.getRole());
             } else {
                 throw new SecurityException("Apenas administradores podem alterar a role de outros usuários.");

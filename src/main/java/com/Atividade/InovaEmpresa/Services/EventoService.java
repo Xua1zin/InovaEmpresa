@@ -1,13 +1,19 @@
 package com.Atividade.InovaEmpresa.Services;
 
 import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
+import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
 import com.Atividade.InovaEmpresa.entities.EventoEntity;
+import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
+import com.Atividade.InovaEmpresa.entities.UsuarioRole;
+import jdk.jfr.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EventoService {
@@ -15,6 +21,8 @@ public class EventoService {
     EventoRepository eventoRepository;
     @Autowired
     UsuarioRepository usuarioRepository;
+    @Autowired
+    IdeiaRepository ideiaRepository;
 
     public EventoEntity save(EventoEntity eventoEntity, Long id){
         try{

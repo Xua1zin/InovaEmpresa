@@ -32,7 +32,7 @@ public class UsuarioController {
         }
     }
 
-    @PutMapping("/update/{id}/{id}")
+    @PutMapping("/update/{logadoId}/{id}")
     public ResponseEntity<UsuarioEntity> update(@RequestBody UsuarioEntity usuarioEntity, @PathVariable Long logadoId, @PathVariable Long id ){
         try {
             return ResponseEntity.ok(usuarioService.update(usuarioEntity, logadoId, id));

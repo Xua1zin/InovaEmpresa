@@ -1,7 +1,9 @@
 package com.Atividade.InovaEmpresa.Services;
 
 import com.Atividade.InovaEmpresa.Repositories.AvaliacaoJuradoRepository;
+import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
 import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
+import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,18 @@ public class AvaliacaoJuradoService {
     @Autowired
     AvaliacaoJuradoRepository avaliacaoJuradoRepository;
 
-    public AvaliacaoJuradoEntity save(AvaliacaoJuradoEntity avaliacaoJuradoEntity){
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    public AvaliacaoJuradoEntity save(AvaliacaoJuradoEntity avaliacaoJuradoEntity, Long id){
         try{
-            return avaliacaoJuradoRepository.save(avaliacaoJuradoEntity);
+            UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
+            if("JURADO".equals(usuarioEntity.getRole())){
+                return avaliacaoJuradoRepository.save(avaliacaoJuradoEntity);
+            } else{
+                throw new SecurityException("Usuário não é um jurado");
+            }
         }catch(Exception e){
             System.out.println("Não foi possível salvar a avaliação jurado: "+ e.getMessage());
             return new AvaliacaoJuradoEntity();

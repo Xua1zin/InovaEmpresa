@@ -58,4 +58,13 @@ public class IdeiaController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/addColaboradores/{id}")
+    public ResponseEntity<IdeiaEntity> addColaboradores(@PathVariable Long ideiaId, @RequestBody List<Long> UsuariosId) {
+        try {
+            return ResponseEntity.ok(ideiaService.addColaboradores(ideiaId, UsuariosId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

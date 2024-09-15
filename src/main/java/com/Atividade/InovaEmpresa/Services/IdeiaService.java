@@ -1,12 +1,15 @@
 package com.Atividade.InovaEmpresa.Services;
 
+import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
+import com.Atividade.InovaEmpresa.entities.EventoEntity;
 import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -17,13 +20,40 @@ public class IdeiaService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    public IdeiaEntity save(IdeiaEntity ideiaEntity, Long id){
+    @Autowired
+    EventoRepository eventoRepository;
+
+    public IdeiaEntity addColaboradores(Long ideiaId, List<Long> usuarioId){
         try{
-            UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+            IdeiaEntity ideiaEntity = ideiaRepository.findById(ideiaId)
+                    .orElseThrow(() -> new IllegalArgumentException("ideia não encontrada"));
+            for(Long id : usuarioId){
+                UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Usuario com ID " + id + " não econtrado"));
+                if(!ideiaEntity.getUsuarios().contains(usuarioEntity) && usuarioEntity.isFlIdeia()){
+                    ideiaEntity.getUsuarios().add(usuarioEntity);
+                }
+            }
+            return ideiaRepository.save(ideiaEntity);
+        } catch (Exception e) {
+            System.out.println("Não foi possível adicionar colaboradores: " + e.getMessage());
+            return new IdeiaEntity();
+        }
+    }
+
+    public IdeiaEntity save(IdeiaEntity ideiaEntity, Long usuarioId){
+        try{
+            Instant atual = Instant.now();
+
+            UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
+
             if(usuarioEntity.isFlIdeia()){
-                ideiaEntity.getUsuarios().add(usuarioEntity);
+                EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                        .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+
                 usuarioEntity.setFlIdeia(true);
+                ideiaEntity.getUsuarios().add(usuarioEntity);
 
                 usuarioRepository.save(usuarioEntity);
 
