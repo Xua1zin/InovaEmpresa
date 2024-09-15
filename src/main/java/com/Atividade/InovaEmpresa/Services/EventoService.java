@@ -24,6 +24,51 @@ public class EventoService {
     @Autowired
     IdeiaRepository ideiaRepository;
 
+    public EventoEntity distribuicaoIdeiasParaJurados() {
+        try{
+            Instant atual = Instant.now();
+
+            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                    .orElseThrow(() -> new IllegalArgumentException("Nenhum evento atual encontrado"));
+
+                            List<IdeiaEntity> ideias = eventoAtual.getIdeias();
+            List<UsuarioEntity> jurados = eventoAtual.getUsuarios().stream()
+                    .filter(usuarioEntity -> "JURADO".equals(usuarioEntity.getRole().name()))
+                    .collect(Collectors.toList());
+
+            if (jurados.size() < 2) {
+                throw new IllegalArgumentException("É necessário pelo menos 2 jurados para distribuir ideias");
+            }
+            if (ideias.isEmpty()) {
+                throw new IllegalArgumentException("Nenhuma ideia encontrada");
+            }
+
+            int quantidadeJuradosPorIdeias = ideias.size() / jurados.size();
+            int restoDaDivisao = ideias.size() % jurados.size();
+            quantidadeJuradosPorIdeias += restoDaDivisao;
+            if(quantidadeJuradosPorIdeias <= 2){
+                quantidadeJuradosPorIdeias = 2;
+            }
+            Collections.shuffle(jurados, new Random());
+
+            for (IdeiaEntity ideia : ideias) {
+                List<UsuarioEntity> juradosParaIdeia = new ArrayList<>();
+                int numJurados = jurados.size();
+                for (int i = 0; i < quantidadeJuradosPorIdeias; i++) {
+                    juradosParaIdeia.add(jurados.get((i + ideia.hashCode()) % numJurados));
+                }
+                ideia.setUsuarios(juradosParaIdeia);
+            }
+
+            ideiaRepository.saveAll(ideias);
+
+            return eventoRepository.save(eventoAtual);
+        }catch(Exception e){
+            System.out.println("Erro ao distribuir ideias para jurados");
+            return new EventoEntity();
+        }
+    }
+
     public EventoEntity save(EventoEntity eventoEntity, Long id){
         try{
             UsuarioEntity usuarioEntity = usuarioRepository.findById(id)

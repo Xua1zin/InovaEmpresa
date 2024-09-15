@@ -40,7 +40,7 @@ public class EventoEntity {
     @NotNull
     private Instant dataAvaliacaoPopular;
 
-    @ManyToMany(mappedBy = "eventos")
+    @OneToMany(mappedBy = "evento")
     private List<IdeiaEntity> ideias;
 
     @ManyToMany(mappedBy = "eventos")

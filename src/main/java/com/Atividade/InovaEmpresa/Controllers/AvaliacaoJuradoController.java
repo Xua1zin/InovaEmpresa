@@ -14,11 +14,11 @@ public class AvaliacaoJuradoController {
     @Autowired
     private AvaliacaoJuradoService avaliacaoJuradoService;
 
-    @PostMapping("/save/{id}")
-    public ResponseEntity<AvaliacaoJuradoEntity> save(@RequestBody AvaliacaoJuradoEntity avaliacaoJuradoEntity, @PathVariable Long id){
-        try{
-            return ResponseEntity.ok(avaliacaoJuradoService.save(avaliacaoJuradoEntity, id));
-        } catch(Exception e){
+    @PostMapping("/save/{ideiaId}/{usuarioId}")
+    public ResponseEntity<AvaliacaoJuradoEntity> save(@PathVariable Long ideiaId, @PathVariable Long usuarioId, @RequestParam Double nota) {
+        try {
+            return ResponseEntity.ok(avaliacaoJuradoService.save(ideiaId, usuarioId, nota));
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

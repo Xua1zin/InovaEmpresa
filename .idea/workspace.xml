@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add jurados" />
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="Add colaboradores na ideia">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/IdeiaEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/IdeiaEntity.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,29 +22,29 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Add-jurados" />
+        <entry key="$PROJECT_DIR$" value="Add-Colaboradores-na-Ideia" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "GustavoGamarra95"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;GustavoGamarra95&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Xua1zin/InovaEmpresa.git",
-    "accountId": "aae4bbee-b4d9-48e9-87e4-8992100525ec"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Xua1zin/InovaEmpresa.git&quot;,
+    &quot;accountId&quot;: &quot;aae4bbee-b4d9-48e9-87e4-8992100525ec&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2m7TzNuGGuTP8pEOCJ3uSe5UQhn" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -45,7 +54,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Add-Colaboradores-na-Ideia",
+    "git-widget-placeholder": "Atribuir-nota",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -85,8 +94,20 @@
     <option name="localTasksCounter" value="4" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add jurados" />
-    <option name="LAST_COMMIT_MESSAGE" value="add jurados" />
+    <MESSAGE value="Add colaboradores na ideia" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add colaboradores na ideia" />
   </component>
 </project>

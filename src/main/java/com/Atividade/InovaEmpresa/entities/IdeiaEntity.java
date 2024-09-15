@@ -35,13 +35,9 @@ public class IdeiaEntity {
     @Size(max = 1000, message = "A descrição deve ter no máximo 1000 caracteres.")
     private String descricao;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ideia_evento",
-            joinColumns = @JoinColumn(name = "ideia_id"),
-            inverseJoinColumns = @JoinColumn(name = "evento_id")
-    )
-    private List<EventoEntity> eventos;
+    @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private EventoEntity evento;
 
     @ManyToMany
     @JoinTable(

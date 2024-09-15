@@ -1,8 +1,10 @@
 package com.Atividade.InovaEmpresa.Services;
 
+import com.Atividade.InovaEmpresa.Repositories.AvaliacaoJuradoRepository;
 import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
+import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
 import com.Atividade.InovaEmpresa.entities.EventoEntity;
 import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,9 +22,37 @@ public class IdeiaService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
-
     @Autowired
     EventoRepository eventoRepository;
+    @Autowired
+    AvaliacaoJuradoRepository avaliacaoJuradoRepository;
+
+    public static AvaliacaoJuradoEntity atribuirNota(UsuarioEntity usuarioEntity, IdeiaEntity ideiaEntity, Double nota) {
+        try {
+            AvaliacaoJuradoEntity avaliacaoExistente = ideiaEntity.getAvaliacaoJurado().stream()
+                    .filter(avaliacao -> avaliacao.getUsuarios().contains(usuarioEntity))
+                    .findFirst()
+                    .orElse(null);
+
+            if (avaliacaoExistente != null) {
+                avaliacaoExistente.setNota(nota);
+                return avaliacaoExistente;
+            } else {
+                AvaliacaoJuradoEntity novaAvaliacao = new AvaliacaoJuradoEntity();
+                novaAvaliacao.setNota(nota);
+                novaAvaliacao.setIdeia(ideiaEntity);
+                novaAvaliacao.setUsuarios(List.of(usuarioEntity));
+
+                ideiaEntity.getAvaliacaoJurado().add(novaAvaliacao);
+
+                return novaAvaliacao;
+            }
+        } catch (Exception e) {
+            System.out.println("Não foi possível atribuir nota: " + e.getMessage());
+            return null;
+        }
+    }
+
 
     public IdeiaEntity addColaboradores(Long ideiaId, List<Long> usuarioId){
         try{
@@ -53,9 +84,11 @@ public class IdeiaService {
                         .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
 
                 usuarioEntity.setFlIdeia(true);
-                ideiaEntity.getUsuarios().add(usuarioEntity);
-
                 usuarioRepository.save(usuarioEntity);
+
+                ideiaEntity.setEvento(eventoAtual);
+
+                ideiaEntity.getUsuarios().add(usuarioEntity);
 
                 return ideiaRepository.save(ideiaEntity);
             }else {
