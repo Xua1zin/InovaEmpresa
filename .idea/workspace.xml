@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="algumas coisas arrumadas e add avaliação de jurados">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoController.java" afterDir="false" />
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add ver nota">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +92,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726441527739</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add ver nota">
+      <option name="closed" value="true" />
+      <created>1726443322683</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726443322683</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -112,6 +118,7 @@
     <MESSAGE value="add jurados" />
     <MESSAGE value="Add colaboradores na ideia" />
     <MESSAGE value="algumas coisas arrumadas e add avaliação de jurados" />
-    <option name="LAST_COMMIT_MESSAGE" value="algumas coisas arrumadas e add avaliação de jurados" />
+    <MESSAGE value="add ver nota" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ver nota" />
   </component>
 </project>

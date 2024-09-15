@@ -1,9 +1,11 @@
 package com.Atividade.InovaEmpresa.Services;
 
 import com.Atividade.InovaEmpresa.Repositories.AvaliacaoJuradoRepository;
+import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
 import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
+import com.Atividade.InovaEmpresa.entities.EventoEntity;
 import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,24 +28,36 @@ public class AvaliacaoJuradoService {
     IdeiaRepository ideiaRepository;
     @Autowired
     IdeiaService ideiaService;
+    @Autowired
+    EventoRepository eventoRepository;
 
     public Double verNota(Long id){
         try{
-            IdeiaEntity ideiaEntity = ideiaRepository.findById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("ideia não encontrada"));
-            List<AvaliacaoJuradoEntity> avaliacaoJuradoList =  ideiaEntity.getAvaliacaoJurado();
+            Instant atual = Instant.now();
 
-            if (avaliacaoJuradoList.isEmpty()) {
-                System.out.println("Nenhuma avaliação encontrada para a ideia com ID: " + id);
+            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                    .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+
+            if(atual.isAfter(eventoAtual.getDataAvaliacaoJurado()) || atual.equals(eventoAtual.getDataAvaliacaoJurado())){
+                IdeiaEntity ideiaEntity = ideiaRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("ideia não encontrada"));
+                List<AvaliacaoJuradoEntity> avaliacaoJuradoList =  ideiaEntity.getAvaliacaoJurado();
+
+                if (avaliacaoJuradoList.isEmpty()) {
+                    System.out.println("Nenhuma avaliação encontrada para a ideia com ID: " + id);
+                    return 0.0;
+                }
+
+                Double media = avaliacaoJuradoList.stream()
+                        .mapToDouble(AvaliacaoJuradoEntity::getNota)
+                        .average()
+                        .orElse(0.0);
+
+                return media;
+            }else {
+                System.out.println("Está fora da data de divulgação");
                 return 0.0;
             }
-
-            Double media = avaliacaoJuradoList.stream()
-                    .mapToDouble(AvaliacaoJuradoEntity::getNota)
-                    .average()
-                    .orElse(0.0);
-
-            return media;
         }catch (Exception e){
             System.out.println("Não foi possível ver a nota");
             return 0.0;
