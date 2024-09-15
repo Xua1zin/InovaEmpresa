@@ -7,9 +7,13 @@ import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
 import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,6 +26,29 @@ public class AvaliacaoJuradoService {
     IdeiaRepository ideiaRepository;
     @Autowired
     IdeiaService ideiaService;
+
+    public Double verNota(Long id){
+        try{
+            IdeiaEntity ideiaEntity = ideiaRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("ideia não encontrada"));
+            List<AvaliacaoJuradoEntity> avaliacaoJuradoList =  ideiaEntity.getAvaliacaoJurado();
+
+            if (avaliacaoJuradoList.isEmpty()) {
+                System.out.println("Nenhuma avaliação encontrada para a ideia com ID: " + id);
+                return 0.0;
+            }
+
+            Double media = avaliacaoJuradoList.stream()
+                    .mapToDouble(AvaliacaoJuradoEntity::getNota)
+                    .average()
+                    .orElse(0.0);
+
+            return media;
+        }catch (Exception e){
+            System.out.println("Não foi possível ver a nota");
+            return 0.0;
+        }
+    }
 
     public AvaliacaoJuradoEntity save(Long ideiaId, Long usuarioId, Double nota){
         if (nota < 3 || nota > 10) {

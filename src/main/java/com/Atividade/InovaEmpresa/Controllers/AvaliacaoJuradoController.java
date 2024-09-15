@@ -14,6 +14,15 @@ public class AvaliacaoJuradoController {
     @Autowired
     private AvaliacaoJuradoService avaliacaoJuradoService;
 
+    @GetMapping("/nota/{id}")
+    public ResponseEntity<Double> verNota(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(avaliacaoJuradoService.verNota(id));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/save/{ideiaId}/{usuarioId}")
     public ResponseEntity<AvaliacaoJuradoEntity> save(@PathVariable Long ideiaId, @PathVariable Long usuarioId, @RequestParam Double nota) {
         try {
