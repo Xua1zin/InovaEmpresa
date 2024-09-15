@@ -58,4 +58,13 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         }
     }
+    @PutMapping("/addJurados/{id}")
+    public ResponseEntity<List<UsuarioEntity>> addJurados(@RequestBody List<Long> usuariosId,@PathVariable Long logadoId){
+        try{
+            return ResponseEntity.ok(usuarioService.addJurados(usuariosId, logadoId));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
