@@ -6,6 +6,7 @@ import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,4 +81,28 @@ public class UsuarioService {
             return new UsuarioEntity();
         }
     }
+    public List<UsuarioEntity> addJurados(List<Long> usuariosId, Long logadoId) {
+        try{
+
+            UsuarioEntity logadoEntity = usuarioRepository.findById(logadoId)
+                    .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
+            if ("ADMIN".equals(logadoEntity.getRole())) {
+                List<UsuarioEntity> usuarioEntitylist = new ArrayList<>();
+                for (Long id : usuariosId) {
+                    UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
+                    usuarioEntity.setRole(UsuarioRole.valueOf("JURADO"));
+                    usuarioEntitylist.add(usuarioEntity);
+                }
+                return usuarioEntitylist;
+            } else {
+                throw new SecurityException("Acesso negado, usuário não é um admin");
+            }
+        }catch (Exception e){
+            System.out.println("Não foi possível adicionar Jurados"+ e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
 }
