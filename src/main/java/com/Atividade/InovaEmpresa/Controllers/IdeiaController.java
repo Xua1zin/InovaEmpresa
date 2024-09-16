@@ -14,28 +14,19 @@ public class IdeiaController {
     @Autowired
     private IdeiaService ideiaService;
 
+    @GetMapping("/{eventoId}/resultado")
+    public ResponseEntity<List<IdeiaEntity>> resultado(@PathVariable Long eventoId){
+        try{
+            return ResponseEntity.ok(ideiaService.resultado(eventoId));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/save/{id}")
     public ResponseEntity<IdeiaEntity> save(@RequestBody IdeiaEntity ideiaEntity, @PathVariable Long id){
         try{
             return ResponseEntity.ok(ideiaService.save(ideiaEntity, id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        try{
-            return ResponseEntity.ok(ideiaService.delete(id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<IdeiaEntity> update(@RequestBody IdeiaEntity ideiaEntity, @PathVariable Long id){
-        try {
-            return ResponseEntity.ok(ideiaService.update(ideiaEntity, id));
         } catch(Exception e){
             return ResponseEntity.badRequest().build();
         }

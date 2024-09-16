@@ -94,16 +94,6 @@ public class EventoService {
         }
     }
 
-    public EventoEntity update(EventoEntity eventoEntity, Long id){
-        try{
-            eventoEntity.setId(id);
-            return eventoRepository.save(eventoEntity);
-        }catch(Exception e){
-            System.out.println("Não foi possível atualizar o evento: " + e.getMessage());
-            return new EventoEntity();
-        }
-    }
-
     public List<EventoEntity> findAll(){
         try{
             return eventoRepository.findAll();

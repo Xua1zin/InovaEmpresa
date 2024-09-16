@@ -8,6 +8,6 @@ import java.time.Instant;
 import java.util.Optional;
 
 public interface EventoRepository extends JpaRepository<EventoEntity, Long> {
-    @Query(value = "SELECT * FROM evento WHERE dataAtual BETWEEN dataInicio AND dataFim", nativeQuery = true)
+    @Query(value = "SELECT * FROM evento WHERE ? BETWEEN dataInicio AND dataFim", nativeQuery = true)
     Optional<EventoEntity> findEventoAtual(Instant dataAtual);
 }

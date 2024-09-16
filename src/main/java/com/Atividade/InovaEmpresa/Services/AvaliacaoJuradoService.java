@@ -95,26 +95,6 @@ public class AvaliacaoJuradoService {
         }
     }
 
-    public String delete(Long id){
-        try{
-            avaliacaoJuradoRepository.deleteById(id);
-            return "Avaliação jurado deletedo com sucesso";
-        }catch(Exception e){
-            System.out.println("Não foi possível deletar a avaliação jurado: " + e.getMessage());
-            return "Não foi possível deletar a avaliação jurado";
-        }
-    }
-
-    public AvaliacaoJuradoEntity update(AvaliacaoJuradoEntity avaliacaoJuradoEntity, Long id){
-        try{
-            avaliacaoJuradoEntity.setId(id);
-            return avaliacaoJuradoRepository.save(avaliacaoJuradoEntity);
-        }catch(Exception e){
-            System.out.println("Não foi possível atualizar a avaliação jurado: " + e.getMessage());
-            return new AvaliacaoJuradoEntity();
-        }
-    }
-
     public List<AvaliacaoJuradoEntity> findAll(){
         try{
             return avaliacaoJuradoRepository.findAll();

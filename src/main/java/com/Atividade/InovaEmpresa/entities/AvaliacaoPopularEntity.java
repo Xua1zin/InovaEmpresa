@@ -20,18 +20,16 @@ public class AvaliacaoPopularEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private Double nota;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private UsuarioEntity usuario;
+
 
     @ManyToOne
     @JoinColumn(name = "ideia_id")
     private IdeiaEntity ideia;
 
-    @ManyToMany
-    @JoinTable(
-            name = "avaliacao_popular_usuario",
-            joinColumns = @JoinColumn(name = "avaliacao_popular_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
-    )
-    private List<UsuarioEntity> usuarios;
+    @ManyToOne
+    @JoinColumn(name = "evento_id")
+    private EventoEntity evento;
 }

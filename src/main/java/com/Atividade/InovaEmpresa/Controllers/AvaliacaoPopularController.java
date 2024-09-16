@@ -9,43 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/avaliacaoPopular")
+@RequestMapping("/voto")
 public class AvaliacaoPopularController {
     @Autowired
     private AvaliacaoPopularService avaliacaoPopularService;
 
-    @PostMapping("/save")
-    public ResponseEntity<AvaliacaoPopularEntity> save(@RequestBody AvaliacaoPopularEntity avaliacaoPopularEntity){
+    @PostMapping("/votar")
+    public ResponseEntity<AvaliacaoPopularEntity> votar(@RequestParam Long ideiaId, @RequestParam Long usuarioId) {
         try{
-            return ResponseEntity.ok(avaliacaoPopularService.save(avaliacaoPopularEntity));
+            return ResponseEntity.ok(avaliacaoPopularService.votar(ideiaId, usuarioId));
         } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        try{
-            return ResponseEntity.ok(avaliacaoPopularService.delete(id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AvaliacaoPopularEntity> update(@RequestBody AvaliacaoPopularEntity avaliacaoPopularEntity, @PathVariable Long id){
-        try {
-            return ResponseEntity.ok(avaliacaoPopularService.update(avaliacaoPopularEntity, id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/findAll")
-    public ResponseEntity<List<AvaliacaoPopularEntity>> findAll(){
-        try{
-            return ResponseEntity.ok(avaliacaoPopularService.findAll());
-        } catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

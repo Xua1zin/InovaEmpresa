@@ -19,13 +19,27 @@ import java.util.List;
 public class IdeiaService {
     @Autowired
     IdeiaRepository ideiaRepository;
-
     @Autowired
     UsuarioRepository usuarioRepository;
     @Autowired
     EventoRepository eventoRepository;
-    @Autowired
-    AvaliacaoJuradoRepository avaliacaoJuradoRepository;
+
+    public List<IdeiaEntity> resultado(Long eventoId) {
+        try{
+            EventoEntity eventoEntity = eventoRepository.findById(eventoId)
+                    .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
+            Instant atual = Instant.now();
+            if(atual.isAfter(eventoEntity.getDataAvaliacaoPopular()) || atual.equals(eventoEntity.getDataAvaliacaoPopular())){
+                return ideiaRepository.findTop10ByEvento(eventoId);
+            }else{
+                System.out.println("Fora da data da votação");
+                return new ArrayList<>();
+            }
+        } catch(Exception e){
+            System.out.println("Erro ao encontrar resultados");
+            return new ArrayList<>();
+        }
+    }
 
     public static AvaliacaoJuradoEntity atribuirNota(UsuarioEntity usuarioEntity, IdeiaEntity ideiaEntity, Double nota) {
         try {
@@ -96,26 +110,6 @@ public class IdeiaService {
             }
         }catch(Exception e){
             System.out.println("Não foi possível salvar a ideia: "+ e.getMessage());
-            return new IdeiaEntity();
-        }
-    }
-
-    public String delete(Long id){
-        try{
-            ideiaRepository.deleteById(id);
-            return "Ideia deleteda com sucesso";
-        }catch(Exception e){
-            System.out.println("Não foi possível deletar a ideia: " + e.getMessage());
-            return "Não foi possível deletar a ideia";
-        }
-    }
-
-    public IdeiaEntity update(IdeiaEntity ideiaEntity, Long id){
-        try{
-            ideiaEntity.setId(id);
-            return ideiaRepository.save(ideiaEntity);
-        }catch(Exception e){
-            System.out.println("Não foi possível atualizar a ideia: " + e.getMessage());
             return new IdeiaEntity();
         }
     }

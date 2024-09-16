@@ -32,15 +32,6 @@ public class EventoController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<EventoEntity> update(@RequestBody EventoEntity eventoEntity, @PathVariable Long id){
-        try {
-            return ResponseEntity.ok(eventoService.update(eventoEntity, id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
     @GetMapping("/findAll")
     public ResponseEntity<List<EventoEntity>> findAll(){
         try{

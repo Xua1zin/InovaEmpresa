@@ -32,24 +32,6 @@ public class AvaliacaoJuradoController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        try{
-            return ResponseEntity.ok(avaliacaoJuradoService.delete(id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<AvaliacaoJuradoEntity> update(@RequestBody AvaliacaoJuradoEntity avaliacaoJuradoEntity, @PathVariable Long id){
-        try {
-            return ResponseEntity.ok(avaliacaoJuradoService.update(avaliacaoJuradoEntity, id));
-        } catch(Exception e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
     @GetMapping("/findAll")
     public ResponseEntity<List<AvaliacaoJuradoEntity>> findAll(){
         try{

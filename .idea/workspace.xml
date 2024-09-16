@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add ver nota">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/IdeiaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/IdeiaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/AvaliacaoPopularRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/AvaliacaoPopularRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/AvaliacaoPopularEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/AvaliacaoPopularEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Atribuir-nota" />
+        <entry key="$PROJECT_DIR$" value="Ver-nota" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,7 +55,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Ver-nota",
+    "git-widget-placeholder": "Resultado-e-Votacao-popular",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>

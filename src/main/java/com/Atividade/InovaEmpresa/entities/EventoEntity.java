@@ -20,7 +20,7 @@ import java.util.List;
 public class EventoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @NotBlank
     private String nome;
@@ -40,9 +40,12 @@ public class EventoEntity {
     @NotNull
     private Instant dataAvaliacaoPopular;
 
-    @OneToMany(mappedBy = "evento")
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IdeiaEntity> ideias;
 
     @ManyToMany(mappedBy = "eventos")
     private List<UsuarioEntity> usuarios;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AvaliacaoPopularEntity> avaliacoesPopulares;
 }
