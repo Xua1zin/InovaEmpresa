@@ -1,9 +1,11 @@
 package com.Atividade.InovaEmpresa.Services;
 
 import com.Atividade.InovaEmpresa.Repositories.AvaliacaoPopularRepository;
+import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
 import com.Atividade.InovaEmpresa.entities.AvaliacaoPopularEntity;
+import com.Atividade.InovaEmpresa.entities.EventoEntity;
 import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,31 +23,47 @@ public class AvaliacaoPopularService {
     UsuarioRepository usuarioRepository;
     @Autowired
     IdeiaRepository ideiaRepository;
+    @Autowired
+    EventoRepository eventoRepository;
 
     public AvaliacaoPopularEntity votar(Long ideiaId, Long usuarioId){
         try{
             Instant atual = Instant.now();
             UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+
             IdeiaEntity ideiaEntity = ideiaRepository.findById(ideiaId)
                     .orElseThrow(() -> new IllegalArgumentException("Ideia não encontrada"));
-            if(atual.equals(ideiaEntity.getEvento().getDataAvaliacaoJurado())){
-                Optional<AvaliacaoPopularEntity> avaliacaoExistente =
-                    avaliacaoPopularRepository.findByUsuarioIdAndEventoId(usuarioId, ideiaEntity.getEvento().getId());
 
-                if (avaliacaoExistente.isPresent()) {
-                    throw new IllegalArgumentException("Usuário já votou neste evento");
+            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                    .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+
+            List<IdeiaEntity> topIdeias = ideiaRepository.findTop10ByJurados(eventoAtual.getId());
+
+            boolean isTop10 = topIdeias.stream()
+                    .anyMatch(ideia -> ideia.getId().equals(ideiaEntity.getId()));
+
+            if (!isTop10) {
+                throw new IllegalArgumentException("A ideia não está entre as top 10 ideias do evento.");
+            }else {
+                if (atual.equals(ideiaEntity.getEvento().getDataAvaliacaoJurado())) {
+                    Optional<AvaliacaoPopularEntity> avaliacaoExistente =
+                            avaliacaoPopularRepository.findByUsuarioIdAndEventoId(usuarioId, ideiaEntity.getEvento().getId());
+
+                    if (avaliacaoExistente.isPresent()) {
+                        throw new IllegalArgumentException("Usuário já votou neste evento");
+                    }
+
+                    AvaliacaoPopularEntity novaAvaliacao = new AvaliacaoPopularEntity();
+                    novaAvaliacao.setUsuario(usuarioEntity);
+                    novaAvaliacao.setIdeia(ideiaEntity);
+                    novaAvaliacao.setEvento(ideiaEntity.getEvento());
+
+                    return avaliacaoPopularRepository.save(novaAvaliacao);
+                } else {
+                    System.out.println("Fora da data de permitida para voto");
+                    return null;
                 }
-
-                AvaliacaoPopularEntity novaAvaliacao = new AvaliacaoPopularEntity();
-                novaAvaliacao.setUsuario(usuarioEntity);
-                novaAvaliacao.setIdeia(ideiaEntity);
-                novaAvaliacao.setEvento(ideiaEntity.getEvento());
-
-                return avaliacaoPopularRepository.save(novaAvaliacao);
-            } else{
-                System.out.println("Fora da data de permitida para voto");
-                return null;
             }
         }catch (Exception e){
             System.out.println("Erro ao votar");

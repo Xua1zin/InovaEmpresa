@@ -14,6 +14,15 @@ public class EventoController {
     @Autowired
     private EventoService eventoService;
 
+    @GetMapping("/distribuirIdeias")
+    public ResponseEntity<EventoEntity> distribuicaoIdeiasParaJurados(){
+        try{
+            return ResponseEntity.ok(eventoService.distribuicaoIdeiasParaJurados());
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping("/save/{id}")
     public ResponseEntity<EventoEntity> save(@RequestBody EventoEntity eventoEntity, @PathVariable Long id){
         try{

@@ -30,7 +30,7 @@ public class IdeiaService {
                     .orElseThrow(() -> new IllegalArgumentException("Evento não encontrado"));
             Instant atual = Instant.now();
             if(atual.isAfter(eventoEntity.getDataAvaliacaoPopular()) || atual.equals(eventoEntity.getDataAvaliacaoPopular())){
-                return ideiaRepository.findTop10ByEvento(eventoId);
+                return ideiaRepository.findTopIdeasByEvento(eventoId);
             }else{
                 System.out.println("Fora da data da votação");
                 return new ArrayList<>();
@@ -89,24 +89,28 @@ public class IdeiaService {
     public IdeiaEntity save(IdeiaEntity ideiaEntity, Long usuarioId){
         try{
             Instant atual = Instant.now();
+            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                    .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+            if(atual.equals(eventoAtual.getDataFim()) || atual.isAfter(eventoAtual.getDataFim())) {
+                UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
+                        .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
 
-            UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
-                    .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
+                if (usuarioEntity.isFlIdeia()) {
 
-            if(usuarioEntity.isFlIdeia()){
-                EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
-                        .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+                    usuarioEntity.setFlIdeia(true);
+                    usuarioRepository.save(usuarioEntity);
 
-                usuarioEntity.setFlIdeia(true);
-                usuarioRepository.save(usuarioEntity);
+                    ideiaEntity.setEvento(eventoAtual);
 
-                ideiaEntity.setEvento(eventoAtual);
+                    ideiaEntity.getUsuarios().add(usuarioEntity);
 
-                ideiaEntity.getUsuarios().add(usuarioEntity);
-
-                return ideiaRepository.save(ideiaEntity);
-            }else {
-                throw new SecurityException("Esse usuário já tem uma ideia vinculada");
+                    return ideiaRepository.save(ideiaEntity);
+                } else {
+                    throw new SecurityException("Esse usuário já tem uma ideia vinculada");
+                }
+            }else{
+                System.out.println("Criação de ideias fora da data limite do evento não é permitido");
+                return null;
             }
         }catch(Exception e){
             System.out.println("Não foi possível salvar a ideia: "+ e.getMessage());

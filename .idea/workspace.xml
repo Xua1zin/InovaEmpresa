@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add ver nota">
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add ver resultados e votacao popular, e arrumado alguns erros">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/IdeiaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/IdeiaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/AvaliacaoPopularRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/AvaliacaoPopularRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/EventoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/EventoController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/AvaliacaoPopularEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/AvaliacaoPopularEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/entities/EventoEntity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Ver-nota" />
+        <entry key="$PROJECT_DIR$" value="Resultado-e-Votacao-popular" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,7 +52,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Resultado-e-Votacao-popular",
+    "git-widget-placeholder": "Distribuicao-de-ideias-para-jurados",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -108,7 +105,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726443322683</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add ver resultados e votacao popular, e arrumado alguns erros">
+      <option name="closed" value="true" />
+      <created>1726449063850</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1726449063850</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -127,6 +132,7 @@
     <MESSAGE value="Add colaboradores na ideia" />
     <MESSAGE value="algumas coisas arrumadas e add avaliação de jurados" />
     <MESSAGE value="add ver nota" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ver nota" />
+    <MESSAGE value="add ver resultados e votacao popular, e arrumado alguns erros" />
+    <option name="LAST_COMMIT_MESSAGE" value="add ver resultados e votacao popular, e arrumado alguns erros" />
   </component>
 </project>
