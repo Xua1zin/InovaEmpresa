@@ -82,7 +82,7 @@ public class UsuarioService {
         }
     }
     public List<UsuarioEntity> addJurados(List<Long> usuariosId, Long logadoId) {
-        try {
+        try{
 
             UsuarioEntity logadoEntity = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
@@ -99,8 +99,8 @@ public class UsuarioService {
             } else {
                 throw new SecurityException("Acesso negado, usuário não é um admin");
             }
-        } catch (Exception e) {
-            System.out.println("Não foi possível adicionar Jurados" + e.getMessage());
+        }catch (Exception e){
+            System.out.println("Não foi possível adicionar Jurados"+ e.getMessage());
             return new ArrayList<>();
         }
     }
