@@ -4,18 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="arrumei alguns erros, e adicionei a distribuição de ideias">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/UsuarioControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/EventoServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/IdeiaServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/UsuarioServiceTest.java" afterDir="false" />
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="arrumei alguns erros e criação de testes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/UsuarioService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/UsuarioService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/EventoServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/EventoServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/IdeiaServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/IdeiaServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/UsuarioServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/UsuarioServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/jacoco.exec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.Atividade.InovaEmpresa.InovaEmpresaApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.Atividade.InovaEmpresa.InovaEmpresaApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.Atividade.InovaEmpresa.InovaEmpresaApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.Atividade.InovaEmpresa.InovaEmpresaApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,12 +47,12 @@
     &quot;assignee&quot;: &quot;GustavoGamarra95&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Xua1zin/InovaEmpresa.git&quot;,
-    &quot;accountId&quot;: &quot;aae4bbee-b4d9-48e9-87e4-8992100525ec&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Xua1zin/InovaEmpresa.git",
+    "accountId": "ecde4f53-16c0-472c-916d-130cd0b1f4dd"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -64,6 +68,16 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.InovaEmpresa.executor": "Run",
+    "JUnit.EventoServiceTest.executor": "Run",
+    "JUnit.IdeiaServiceTest.executor": "Run",
+    "JUnit.IdeiaServiceTest.testAtribuirNotaFail.executor": "Run",
+    "JUnit.IdeiaServiceTest.testAtribuirNotaSuccess.executor": "Run",
+    "JUnit.UsuarioServiceTest.executor": "Run",
+    "JUnit.UsuarioServiceTest.testAddJuradosSuccess.executor": "Run",
+    "JUnit.UsuarioServiceTest.testFindByIdFailure.executor": "Run",
+    "JUnit.UsuarioServiceTest.testFindByIdSuccess.executor": "Run",
+    "JUnit.UsuarioServiceTest.testUpdateFailure.executor": "Run",
+    "JUnit.UsuarioServiceTest.testUpdateSuccess.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
@@ -80,7 +94,7 @@
       <recent name="com.Atividade.InovaEmpresa.Services" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.AvaliacaoPopularServiceTest">
     <configuration name="InovaEmpresa" type="Application" factoryName="Application">
       <envs>
         <env name="DB_PASSWORD_inovaEmpresa" value="root" />
@@ -93,6 +107,100 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="AvaliacaoPopularServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="InovaEmpresa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.AvaliacaoPopularServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EventoServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="InovaEmpresa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.EventoServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IdeiaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="InovaEmpresa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IdeiaServiceTest.testAtribuirNotaFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="InovaEmpresa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
+      <option name="METHOD_NAME" value="testAtribuirNotaFail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IdeiaServiceTest.testAtribuirNotaSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="InovaEmpresa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
+      <option name="METHOD_NAME" value="testAtribuirNotaSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.InovaEmpresa" />
+      <item itemvalue="JUnit.AvaliacaoPopularServiceTest" />
+      <item itemvalue="JUnit.EventoServiceTest" />
+      <item itemvalue="JUnit.IdeiaServiceTest" />
+      <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaFail" />
+      <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaSuccess" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AvaliacaoPopularServiceTest" />
+        <item itemvalue="JUnit.EventoServiceTest" />
+        <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaSuccess" />
+        <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaFail" />
+        <item itemvalue="JUnit.IdeiaServiceTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -159,7 +267,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726450789310</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="arrumei alguns erros e criação de testes">
+      <option name="closed" value="true" />
+      <created>1726451776688</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1726451776688</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -180,6 +296,7 @@
     <MESSAGE value="add ver nota" />
     <MESSAGE value="add ver resultados e votacao popular, e arrumado alguns erros" />
     <MESSAGE value="arrumei alguns erros, e adicionei a distribuição de ideias" />
-    <option name="LAST_COMMIT_MESSAGE" value="arrumei alguns erros, e adicionei a distribuição de ideias" />
+    <MESSAGE value="arrumei alguns erros e criação de testes" />
+    <option name="LAST_COMMIT_MESSAGE" value="arrumei alguns erros e criação de testes" />
   </component>
 </project>

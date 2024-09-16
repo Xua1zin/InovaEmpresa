@@ -35,7 +35,7 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioEntity update(UsuarioEntity usuarioEntity, Long logadoId, Long id){
+    public UsuarioEntity update(UsuarioEntity usuarioEntity, Long logadoId, Long id) {
         try {
             UsuarioEntity usuarioExistente = usuarioRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
@@ -43,7 +43,7 @@ public class UsuarioService {
             UsuarioEntity usuarioLogado = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
 
-            if ("ADMIN".equals(usuarioLogado.getRole()) && usuarioEntity.getRole()!= usuarioExistente.getRole()) {
+            if ("ADMIN".equals(usuarioLogado.getRole()) && !usuarioEntity.getRole().equals(usuarioExistente.getRole())) {
                 usuarioExistente.setRole(usuarioEntity.getRole());
             } else {
                 throw new SecurityException("Apenas administradores podem alterar a role de outros usuários.");
@@ -58,7 +58,6 @@ public class UsuarioService {
             return new UsuarioEntity();
         }
     }
-
 
     public List<UsuarioEntity> findAll(){
         try{
@@ -81,9 +80,9 @@ public class UsuarioService {
             return new UsuarioEntity();
         }
     }
+
     public List<UsuarioEntity> addJurados(List<Long> usuariosId, Long logadoId) {
         try {
-
             UsuarioEntity logadoEntity = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
             if ("ADMIN".equals(logadoEntity.getRole())) {
