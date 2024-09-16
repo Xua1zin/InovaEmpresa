@@ -4,18 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="add ver resultados e votacao popular, e arrumado alguns erros">
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="arrumei alguns erros, e adicionei a distribuição de ideias">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/UsuarioControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/AvaliacaoJuradoServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/EventoServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/IdeiaServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Services/UsuarioServiceTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/EventoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Controllers/EventoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Repositories/IdeiaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/AvaliacaoPopularService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/EventoService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Atividade/InovaEmpresa/Services/IdeiaService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -51,11 +63,37 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.InovaEmpresa.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "git-widget-placeholder": "Distribuicao-de-ideias-para-jurados",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.Atividade.InovaEmpresa.Controllers" />
+      <recent name="com.Atividade.InovaEmpresa.Services" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="InovaEmpresa" type="Application" factoryName="Application">
+      <envs>
+        <env name="DB_PASSWORD_inovaEmpresa" value="root" />
+        <env name="DB_URL_inovaEmpresa" value="jdbc:postgresql://localhost:5432/inovaempresa" />
+        <env name="DB_USERNAME_inovaEmpresa" value="postgres" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.InovaEmpresaApplication" />
+      <module name="InovaEmpresa" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -113,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726449063850</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="arrumei alguns erros, e adicionei a distribuição de ideias">
+      <option name="closed" value="true" />
+      <created>1726450789310</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1726450789310</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -133,6 +179,7 @@
     <MESSAGE value="algumas coisas arrumadas e add avaliação de jurados" />
     <MESSAGE value="add ver nota" />
     <MESSAGE value="add ver resultados e votacao popular, e arrumado alguns erros" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ver resultados e votacao popular, e arrumado alguns erros" />
+    <MESSAGE value="arrumei alguns erros, e adicionei a distribuição de ideias" />
+    <option name="LAST_COMMIT_MESSAGE" value="arrumei alguns erros, e adicionei a distribuição de ideias" />
   </component>
 </project>

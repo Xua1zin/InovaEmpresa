@@ -48,6 +48,6 @@ public class UsuarioEntity {
     @ManyToMany(mappedBy = "usuarios")
     private List<AvaliacaoJuradoEntity> avaliacaoJurado;
 
-    @ManyToMany(mappedBy = "usuarios")
-    private List<AvaliacaoPopularEntity> avaliacaoPopular;
+    @OneToMany(mappedBy = "usuario")
+    private List<AvaliacaoPopularEntity> avaliacaoPopular; // Atualizado de ManyToMany para OneToMany
 }

@@ -7,14 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "avaliacaoPopular")
+@Table(name = "avaliacao_popular")
 public class AvaliacaoPopularEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +21,6 @@ public class AvaliacaoPopularEntity {
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioEntity usuario;
-
 
     @ManyToOne
     @JoinColumn(name = "ideia_id")
