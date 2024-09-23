@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="arrumei alguns erros e criação de testes" />
+    <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="funfa">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,12 +38,12 @@
     &quot;assignee&quot;: &quot;GustavoGamarra95&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Xua1zin/InovaEmpresa.git&quot;,
-    &quot;accountId&quot;: &quot;ecde4f53-16c0-472c-916d-130cd0b1f4dd&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Xua1zin/InovaEmpresa.git",
+    "accountId": "aae4bbee-b4d9-48e9-87e4-8992100525ec"
   }
-}</component>
+}]]></component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -52,10 +59,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.InovaEmpresa.executor": "Run",
+    "JUnit.AvaliacaoPopularControllerTest.executor": "Run",
+    "JUnit.EventoControllerTest.executor": "Run",
     "JUnit.EventoServiceTest.executor": "Run",
+    "JUnit.IdeiaControllerTest.executor": "Run",
     "JUnit.IdeiaServiceTest.executor": "Run",
     "JUnit.IdeiaServiceTest.testAtribuirNotaFail.executor": "Run",
     "JUnit.IdeiaServiceTest.testAtribuirNotaSuccess.executor": "Run",
+    "JUnit.UsuarioControllerTest.save.executor": "Run",
     "JUnit.UsuarioServiceTest.executor": "Run",
     "JUnit.UsuarioServiceTest.testAddJuradosSuccess.executor": "Run",
     "JUnit.UsuarioServiceTest.testFindByIdFailure.executor": "Run",
@@ -65,7 +76,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "Distribuicao-de-ideias-para-jurados-",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
@@ -78,7 +89,7 @@
       <recent name="com.Atividade.InovaEmpresa.Services" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AvaliacaoPopularServiceTest">
+  <component name="RunManager" selected="JUnit.UsuarioControllerTest.save">
     <configuration name="InovaEmpresa" type="Application" factoryName="Application">
       <envs>
         <env name="DB_PASSWORD_inovaEmpresa" value="root" />
@@ -91,78 +102,77 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AvaliacaoPopularServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AvaliacaoJuradoControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.AvaliacaoPopularServiceTest" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.AvaliacaoJuradoControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="EventoServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AvaliacaoPopularControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.EventoServiceTest" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.AvaliacaoPopularControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IdeiaServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EventoControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.EventoControllerTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IdeiaServiceTest.testAtribuirNotaFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="IdeiaControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
-      <option name="METHOD_NAME" value="testAtribuirNotaFail" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.IdeiaControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="IdeiaServiceTest.testAtribuirNotaSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UsuarioControllerTest.save" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.IdeiaServiceTest" />
-      <option name="METHOD_NAME" value="testAtribuirNotaSuccess" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.UsuarioControllerTest" />
+      <option name="METHOD_NAME" value="save" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -170,19 +180,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.InovaEmpresa" />
-      <item itemvalue="JUnit.AvaliacaoPopularServiceTest" />
-      <item itemvalue="JUnit.EventoServiceTest" />
-      <item itemvalue="JUnit.IdeiaServiceTest" />
-      <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaFail" />
-      <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaSuccess" />
+      <item itemvalue="JUnit.AvaliacaoPopularControllerTest" />
+      <item itemvalue="JUnit.EventoControllerTest" />
+      <item itemvalue="JUnit.IdeiaControllerTest" />
+      <item itemvalue="JUnit.UsuarioControllerTest.save" />
+      <item itemvalue="JUnit.AvaliacaoJuradoControllerTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AvaliacaoPopularServiceTest" />
-        <item itemvalue="JUnit.EventoServiceTest" />
-        <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaSuccess" />
-        <item itemvalue="JUnit.IdeiaServiceTest.testAtribuirNotaFail" />
-        <item itemvalue="JUnit.IdeiaServiceTest" />
+        <item itemvalue="JUnit.UsuarioControllerTest.save" />
+        <item itemvalue="JUnit.IdeiaControllerTest" />
+        <item itemvalue="JUnit.EventoControllerTest" />
+        <item itemvalue="JUnit.AvaliacaoPopularControllerTest" />
+        <item itemvalue="JUnit.AvaliacaoJuradoControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -259,7 +269,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726451776688</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="funfa">
+      <option name="closed" value="true" />
+      <created>1726457650029</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1726457650029</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -281,6 +299,7 @@
     <MESSAGE value="add ver resultados e votacao popular, e arrumado alguns erros" />
     <MESSAGE value="arrumei alguns erros, e adicionei a distribuição de ideias" />
     <MESSAGE value="arrumei alguns erros e criação de testes" />
-    <option name="LAST_COMMIT_MESSAGE" value="arrumei alguns erros e criação de testes" />
+    <MESSAGE value="funfa" />
+    <option name="LAST_COMMIT_MESSAGE" value="funfa" />
   </component>
 </project>
