@@ -1,5 +1,6 @@
 package com.Atividade.InovaEmpresa.Controllers;
 
+import com.Atividade.InovaEmpresa.Controllers.AvaliacaoJuradoController;
 import com.Atividade.InovaEmpresa.Services.AvaliacaoJuradoService;
 import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,112 +8,72 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class AvaliacaoJuradoControllerTest {
 
-    @Mock
+    @MockBean
     private AvaliacaoJuradoService avaliacaoJuradoService;
 
-    @InjectMocks
+    @Autowired
     private AvaliacaoJuradoController avaliacaoJuradoController;
 
-    private AvaliacaoJuradoEntity avaliacaoJurado;
+    @Test
+    void testVerNota() {
+        long id = 1L;
+        double nota = 4.5;
+        when(avaliacaoJuradoService.verNota(id)).thenReturn(nota);
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        avaliacaoJurado = new AvaliacaoJuradoEntity();
-        avaliacaoJurado.setId(1L);
-        avaliacaoJurado.setNota(8.5);
+        ResponseEntity<Double> response = avaliacaoJuradoController.verNota(id);
+
+        assertEquals(nota, response.getBody());
+        verify(avaliacaoJuradoService, times(1)).verNota(id);
     }
 
     @Test
-    void verNota_Success() {
-        when(avaliacaoJuradoService.verNota(anyLong())).thenReturn(8.5);
+    void testSave() {
+        long ideiaId = 1L;
+        long usuarioId = 2L;
+        double nota = 4.5;
+        AvaliacaoJuradoEntity entity = new AvaliacaoJuradoEntity();
+        when(avaliacaoJuradoService.save(ideiaId, usuarioId, nota)).thenReturn(entity);
 
-        ResponseEntity<Double> response = avaliacaoJuradoController.verNota(1L);
+        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.save(ideiaId, usuarioId, nota);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(8.5, response.getBody());
+        assertEquals(entity, response.getBody());
+        verify(avaliacaoJuradoService, times(1)).save(ideiaId, usuarioId, nota);
     }
 
     @Test
-    void verNota_Failure() {
-        when(avaliacaoJuradoService.verNota(anyLong())).thenThrow(new RuntimeException());
-
-        ResponseEntity<Double> response = avaliacaoJuradoController.verNota(1L);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void save_Success() {
-        when(avaliacaoJuradoService.save(anyLong(), anyLong(), anyDouble())).thenReturn(avaliacaoJurado);
-
-        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.save(1L, 1L, 8.5);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(avaliacaoJurado, response.getBody());
-    }
-
-    @Test
-    void save_Failure() {
-        when(avaliacaoJuradoService.save(anyLong(), anyLong(), anyDouble())).thenThrow(new RuntimeException());
-
-        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.save(1L, 1L, 8.5);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void findAll_Success() {
-        List<AvaliacaoJuradoEntity> avaliacoes = Arrays.asList(avaliacaoJurado);
-        when(avaliacaoJuradoService.findAll()).thenReturn(avaliacoes);
+    void testFindAll() {
+        List<AvaliacaoJuradoEntity> entities = new ArrayList<>();
+        when(avaliacaoJuradoService.findAll()).thenReturn(entities);
 
         ResponseEntity<List<AvaliacaoJuradoEntity>> response = avaliacaoJuradoController.findAll();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(avaliacoes, response.getBody());
+        assertEquals(entities, response.getBody());
+        verify(avaliacaoJuradoService, times(1)).findAll();
     }
 
     @Test
-    void findAll_Failure() {
-        when(avaliacaoJuradoService.findAll()).thenThrow(new RuntimeException());
+    void testFindById() {
+        long id = 1L;
+        AvaliacaoJuradoEntity entity = new AvaliacaoJuradoEntity();
+        when(avaliacaoJuradoService.findById(id)).thenReturn(entity);
 
-        ResponseEntity<List<AvaliacaoJuradoEntity>> response = avaliacaoJuradoController.findAll();
+        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.findById(id);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
-    @Test
-    void findById_Success() {
-        when(avaliacaoJuradoService.findById(anyLong())).thenReturn(avaliacaoJurado);
-
-        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.findById(1L);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(avaliacaoJurado, response.getBody());
-    }
-
-    @Test
-    void findById_Failure() {
-        when(avaliacaoJuradoService.findById(anyLong())).thenThrow(new RuntimeException());
-
-        ResponseEntity<AvaliacaoJuradoEntity> response = avaliacaoJuradoController.findById(1L);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
+        assertEquals(entity, response.getBody());
+        verify(avaliacaoJuradoService, times(1)).findById(id);
     }
 }

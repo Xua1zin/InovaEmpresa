@@ -27,8 +27,6 @@ public class AvaliacaoJuradoService {
     @Autowired
     IdeiaRepository ideiaRepository;
     @Autowired
-    IdeiaService ideiaService;
-    @Autowired
     EventoRepository eventoRepository;
 
     public Double verNota(Long id){

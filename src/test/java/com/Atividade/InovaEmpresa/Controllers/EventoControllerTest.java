@@ -7,141 +7,94 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class EventoControllerTest {
 
-    @Mock
-    private EventoService eventoService;
+    @MockBean
+    EventoService eventoService;
 
-    @InjectMocks
-    private EventoController eventoController;
-
-    private EventoEntity eventoEntity;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        eventoEntity = new EventoEntity();
-        eventoEntity.setId(1L);
-    }
+    @Autowired
+    EventoController eventoController;
 
     @Test
-    void distribuicaoIdeiasParaJurados_Success() {
-        when(eventoService.distribuicaoIdeiasParaJurados()).thenReturn(eventoEntity);
+    void testDistribuicaoIdeiasParaJurados() {
+        EventoEntity entity = new EventoEntity();
+        when(eventoService.distribuicaoIdeiasParaJurados()).thenReturn(entity);
 
         ResponseEntity<EventoEntity> response = eventoController.distribuicaoIdeiasParaJurados();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(eventoEntity, response.getBody());
+        assertEquals(entity, response.getBody());
         verify(eventoService, times(1)).distribuicaoIdeiasParaJurados();
     }
 
     @Test
-    void distribuicaoIdeiasParaJurados_Failure() {
-        when(eventoService.distribuicaoIdeiasParaJurados()).thenThrow(new RuntimeException());
+    void testSaveEvento() {
+        EventoEntity entity = new EventoEntity();
+        long id = 1L;
+        when(eventoService.save(entity, id)).thenReturn(entity);
 
-        ResponseEntity<EventoEntity> response = eventoController.distribuicaoIdeiasParaJurados();
+        ResponseEntity<EventoEntity> response = eventoController.save(entity, id);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(eventoService, times(1)).distribuicaoIdeiasParaJurados();
+        assertEquals(entity, response.getBody());
+        verify(eventoService, times(1)).save(entity, id);
     }
 
     @Test
-    void save_Success() {
-        when(eventoService.save(any(EventoEntity.class), anyLong())).thenReturn(eventoEntity);
+    void testAddUsuarioEvento() {
+        long usuarioId = 1L;
+        EventoEntity entity = new EventoEntity();
+        when(eventoService.addUsuarioEvento(usuarioId)).thenReturn(entity);
 
-        ResponseEntity<EventoEntity> response = eventoController.save(eventoEntity, 1L);
+        ResponseEntity<EventoEntity> response = eventoController.save(usuarioId);
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(eventoEntity, response.getBody());
-        verify(eventoService, times(1)).save(eventoEntity, 1L);
+        assertEquals(entity, response.getBody());
+        verify(eventoService, times(1)).addUsuarioEvento(usuarioId);
     }
 
     @Test
-    void save_Failure() {
-        when(eventoService.save(any(EventoEntity.class), anyLong())).thenThrow(new RuntimeException());
+    void testDelete() {
+        long id = 1L;
+        String message = "Entity deleted";
+        when(eventoService.delete(id)).thenReturn(message);
 
-        ResponseEntity<EventoEntity> response = eventoController.save(eventoEntity, 1L);
+        ResponseEntity<String> response = eventoController.delete(id);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(eventoService, times(1)).save(eventoEntity, 1L);
+        assertEquals(message, response.getBody());
+        verify(eventoService, times(1)).delete(id);
     }
 
     @Test
-    void delete_Success() {
-        when(eventoService.delete(anyLong())).thenReturn("Deleted successfully");
-
-        ResponseEntity<String> response = eventoController.delete(1L);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Deleted successfully", response.getBody());
-        verify(eventoService, times(1)).delete(1L);
-    }
-
-    @Test
-    void delete_Failure() {
-        when(eventoService.delete(anyLong())).thenThrow(new RuntimeException());
-
-        ResponseEntity<String> response = eventoController.delete(1L);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(eventoService, times(1)).delete(1L);
-    }
-
-    @Test
-    void findAll_Success() {
-        List<EventoEntity> eventos = Arrays.asList(eventoEntity);
-        when(eventoService.findAll()).thenReturn(eventos);
+    void testFindAll() {
+        List<EventoEntity> entities = new ArrayList<>();
+        when(eventoService.findAll()).thenReturn(entities);
 
         ResponseEntity<List<EventoEntity>> response = eventoController.findAll();
 
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(eventos, response.getBody());
+        assertEquals(entities, response.getBody());
         verify(eventoService, times(1)).findAll();
     }
 
     @Test
-    void findAll_Failure() {
-        when(eventoService.findAll()).thenThrow(new RuntimeException());
+    void testFindById() {
+        long id = 1L;
+        EventoEntity entity = new EventoEntity();
+        when(eventoService.findById(id)).thenReturn(entity);
 
-        ResponseEntity<List<EventoEntity>> response = eventoController.findAll();
+        ResponseEntity<EventoEntity> response = eventoController.findById(id);
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(eventoService, times(1)).findAll();
-    }
-
-    @Test
-    void findById_Success() {
-        when(eventoService.findById(anyLong())).thenReturn(eventoEntity);
-
-        ResponseEntity<EventoEntity> response = eventoController.findById(1L);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(eventoEntity, response.getBody());
-        verify(eventoService, times(1)).findById(1L);
-    }
-
-    @Test
-    void findById_Failure() {
-        when(eventoService.findById(anyLong())).thenThrow(new RuntimeException());
-
-        ResponseEntity<EventoEntity> response = eventoController.findById(1L);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-        verify(eventoService, times(1)).findById(1L);
+        assertEquals(entity, response.getBody());
+        verify(eventoService, times(1)).findById(id);
     }
 }

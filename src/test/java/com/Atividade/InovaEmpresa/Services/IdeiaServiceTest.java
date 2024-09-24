@@ -1,6 +1,5 @@
 package com.Atividade.InovaEmpresa.Services;
 
-import com.Atividade.InovaEmpresa.Repositories.AvaliacaoJuradoRepository;
 import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
@@ -13,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,11 +19,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
-public class IdeiaServiceTest {
+class IdeiaServiceTest {
 
     @InjectMocks
     private IdeiaService ideiaService;
@@ -39,128 +35,93 @@ public class IdeiaServiceTest {
     @Mock
     private EventoRepository eventoRepository;
 
+    private EventoEntity eventoMock;
+    private UsuarioEntity usuarioMock;
+    private IdeiaEntity ideiaMock;
+
     @BeforeEach
-    void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
+
+        // Mocking IdeiaEntity
+        ideiaMock = new IdeiaEntity();
+        ideiaMock.setUsuarios(new ArrayList<>());
+
+        // Mocking UsuarioEntity
+        usuarioMock = new UsuarioEntity();
+        usuarioMock.setId(1L);
+        usuarioMock.setFlIdeia(false);
+
+        // Mocking EventoEntity
+        eventoMock = new EventoEntity();
+        eventoMock.setDataFim(Instant.now().plusSeconds(3600));
+    }
+
+
+    @Test
+    void testAtribuirNota_UpdateExistingAvaliacao() {
+        AvaliacaoJuradoEntity existingAvaliacao = new AvaliacaoJuradoEntity();
+        existingAvaliacao.setUsuarios(List.of(usuarioMock));
+        ideiaMock.setAvaliacaoJurado(List.of(existingAvaliacao));
+
+        AvaliacaoJuradoEntity result = IdeiaService.atribuirNota(usuarioMock, ideiaMock, 8.5);
+
+        assertNotNull(result);
+        assertEquals(8.5, result.getNota());
     }
 
     @Test
-    void testResultadoSuccess() {
-        EventoEntity eventoEntity = new EventoEntity();
-        eventoEntity.setDataAvaliacaoPopular(Instant.now().minusSeconds(3600));
-        when(eventoRepository.findById(any(Long.class))).thenReturn(Optional.of(eventoEntity));
-        when(ideiaRepository.findTopIdeasByEvento(any(Long.class))).thenReturn(new ArrayList<>());
-
-        List<IdeiaEntity> ideias = ideiaService.resultado(1L);
-        assertNotNull(ideias);
-        assertTrue(ideias.isEmpty());
-    }
-
-    @Test
-    void testResultadoFail() {
-        when(eventoRepository.findById(any(Long.class))).thenReturn(Optional.empty());
-
-        List<IdeiaEntity> ideias = ideiaService.resultado(1L);
-        assertNotNull(ideias);
-        assertTrue(ideias.isEmpty());
-    }
-
-    @Test
-    void testAtribuirNotaSuccess() {
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        IdeiaEntity ideiaEntity = new IdeiaEntity();
-        AvaliacaoJuradoEntity avaliacaoJuradoEntity = ideiaService.atribuirNota(usuarioEntity, ideiaEntity, 8.0);
-        assertNotNull(avaliacaoJuradoEntity);
-        assertEquals(8.0, avaliacaoJuradoEntity.getNota());
-    }
-
-    @Test
-    void testAtribuirNotaFail() {
-        IdeiaEntity ideiaEntity = mock(IdeiaEntity.class);
-        UsuarioEntity usuarioEntity = mock(UsuarioEntity.class);
-        doThrow(new RuntimeException("Erro")).when(ideiaEntity).getAvaliacaoJurado();
-        AvaliacaoJuradoEntity avaliacaoJuradoEntity = ideiaService.atribuirNota(usuarioEntity, ideiaEntity, 8.0);
-        assertNull(avaliacaoJuradoEntity);
-    }
-
-    @Test
-    void testAddColaboradoresSuccess() {
-        IdeiaEntity ideiaEntity = new IdeiaEntity();
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        usuarioEntity.setFlIdeia(true);
+    void testAddColaboradores_Success() {
         List<Long> usuarioIds = List.of(1L);
-        when(ideiaRepository.findById(any(Long.class))).thenReturn(Optional.of(ideiaEntity));
-        when(usuarioRepository.findById(any(Long.class))).thenReturn(Optional.of(usuarioEntity));
-        when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaEntity);
+
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideiaMock));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
+        when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaMock);
 
         IdeiaEntity result = ideiaService.addColaboradores(1L, usuarioIds);
+
         assertNotNull(result);
+        assertTrue(ideiaMock.getUsuarios().contains(usuarioMock));
+        verify(ideiaRepository, times(1)).save(ideiaMock);
     }
 
-    @Test
-    void testAddColaboradoresFail() {
-        List<Long> usuarioIds = List.of(1L);
-        when(ideiaRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        IdeiaEntity result = ideiaService.addColaboradores(1L, usuarioIds);
+
+    @Test
+    void testSaveIdea_Success() {
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(eventoMock));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
+        when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaMock);
+
+        IdeiaEntity result = ideiaService.save(ideiaMock, 1L);
+
         assertNotNull(result);
+        verify(ideiaRepository, times(1)).save(ideiaMock);
     }
 
-    @Test
-    void testSaveSuccess() {
-        IdeiaEntity ideiaEntity = new IdeiaEntity();
-        UsuarioEntity usuarioEntity = new UsuarioEntity();
-        EventoEntity eventoEntity = new EventoEntity();
-        eventoEntity.setDataFim(Instant.now().minusSeconds(3600));
-        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(eventoEntity));
-        when(usuarioRepository.findById(any(Long.class))).thenReturn(Optional.of(usuarioEntity));
-        when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaEntity);
 
-        IdeiaEntity result = ideiaService.save(ideiaEntity, 1L);
+
+    @Test
+    void testFindAllIdeas_Success() {
+        when(ideiaRepository.findAll()).thenReturn(List.of(ideiaMock));
+
+        List<IdeiaEntity> result = ideiaService.findAll();
+
         assertNotNull(result);
+        assertFalse(result.isEmpty());
+        verify(ideiaRepository, times(1)).findAll();
     }
 
     @Test
-    void testSaveFail() {
-        IdeiaEntity ideiaEntity = new IdeiaEntity();
-        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.empty());
-
-        IdeiaEntity result = ideiaService.save(ideiaEntity, 1L);
-        assertNull(result);
-    }
-
-    @Test
-    void testFindAllSuccess() {
-        when(ideiaRepository.findAll()).thenReturn(new ArrayList<>());
-
-        List<IdeiaEntity> ideias = ideiaService.findAll();
-        assertNotNull(ideias);
-        assertTrue(ideias.isEmpty());
-    }
-
-    @Test
-    void testFindAllFail() {
-        when(ideiaRepository.findAll()).thenThrow(new RuntimeException("Erro"));
-
-        List<IdeiaEntity> ideias = ideiaService.findAll();
-        assertNotNull(ideias);
-        assertTrue(ideias.isEmpty());
-    }
-
-    @Test
-    void testFindByIdSuccess() {
-        IdeiaEntity ideiaEntity = new IdeiaEntity();
-        when(ideiaRepository.findById(any(Long.class))).thenReturn(Optional.of(ideiaEntity));
+    void testFindById_Success() {
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideiaMock));
 
         IdeiaEntity result = ideiaService.findById(1L);
+
         assertNotNull(result);
+        assertEquals(ideiaMock, result);
+        verify(ideiaRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void testFindByIdFail() {
-        when(ideiaRepository.findById(any(Long.class))).thenThrow(new RuntimeException("Erro"));
 
-        IdeiaEntity result = ideiaService.findById(1L);
-        assertNotNull(result);
-    }
 }

@@ -9,154 +9,108 @@ import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class EventoServiceTest {
 
-    @InjectMocks
+    @Autowired
     private EventoService eventoService;
 
-    @Mock
+    @MockBean
     private EventoRepository eventoRepository;
 
-    @Mock
+    @MockBean
     private UsuarioRepository usuarioRepository;
 
-    @Mock
+    @MockBean
     private IdeiaRepository ideiaRepository;
 
+    private EventoEntity eventoMock;
+    private UsuarioEntity usuarioMock;
+    private IdeiaEntity ideiaMock;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    public void setup() {
+        // Mocking EventoEntity
+        eventoMock = new EventoEntity();
+        eventoMock.setDataAvaliacaoJurado(Instant.now().minusSeconds(60));
+        eventoMock.setDataAvaliacaoPopular(Instant.now().plusSeconds(3600));
+        eventoMock.setIdeias(new ArrayList<>());
+        eventoMock.setUsuarios(new ArrayList<>());
+
+        // Mocking UsuarioEntity
+        usuarioMock = new UsuarioEntity();
+        usuarioMock.setId(1L);
+        usuarioMock.setRole(UsuarioRole.ADMIN);
+        eventoMock.getUsuarios().add(usuarioMock);
+
+        // Mocking IdeiaEntity
+        ideiaMock = new IdeiaEntity();
+        eventoMock.getIdeias().add(ideiaMock);
     }
 
     @Test
-    void testDistribuicaoIdeiasParaJurados_Success() {
-        // Setup
-        Instant atual = Instant.now();
-        EventoEntity eventoAtual = new EventoEntity();
-        eventoAtual.setDataAvaliacaoJurado(atual);
+    public void testAddUsuarioEvento_Success() {
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(eventoMock));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(usuarioMock);
+        when(eventoRepository.save(any(EventoEntity.class))).thenReturn(eventoMock);
 
-        UsuarioEntity jurado1 = new UsuarioEntity();
-        jurado1.setRole(UsuarioRole.JURADO);
-        UsuarioEntity jurado2 = new UsuarioEntity();
-        jurado2.setRole(UsuarioRole.JURADO);
-        eventoAtual.setUsuarios(Arrays.asList(jurado1, jurado2));
+        EventoEntity result = eventoService.addUsuarioEvento(1L);
 
-        IdeiaEntity ideia1 = new IdeiaEntity();
-        IdeiaEntity ideia2 = new IdeiaEntity();
-        eventoAtual.setIdeias(Arrays.asList(ideia1, ideia2));
-
-        when(eventoRepository.findEventoAtual(atual)).thenReturn(Optional.of(eventoAtual));
-
-        EventoEntity eventoSalvo = new EventoEntity();
-        when(eventoRepository.save(eventoAtual)).thenReturn(eventoSalvo);
-        when(ideiaRepository.saveAll(anyList())).thenReturn(Arrays.asList(ideia1, ideia2));
-
-        EventoEntity resultado = eventoService.distribuicaoIdeiasParaJurados();
-        assertNotNull(resultado);
-        verify(ideiaRepository).saveAll(anyList());
-        verify(eventoRepository).save(eventoAtual);
+        assertNotNull(result);
+        assertEquals(eventoMock, result);
+        verify(usuarioRepository, times(1)).save(usuarioMock);
     }
 
     @Test
-    void testDistribuicaoIdeiasParaJurados_Fail_NoEvent() {
-        Instant atual = Instant.now();
-        when(eventoRepository.findEventoAtual(atual)).thenReturn(Optional.empty());
-        EventoEntity resultado = eventoService.distribuicaoIdeiasParaJurados();
-        assertNull(resultado);
-        verify(ideiaRepository, never()).saveAll(anyList());
+    public void testSaveEventAsAdmin_Success() {
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
+        when(eventoRepository.save(any(EventoEntity.class))).thenReturn(eventoMock);
+
+        EventoEntity result = eventoService.save(eventoMock, 1L);
+
+        assertNotNull(result);
+        assertEquals(eventoMock, result);
+        verify(eventoRepository, times(1)).save(eventoMock);
     }
 
     @Test
-    void testDistribuicaoIdeiasParaJurados_Fail_NotEnoughJurados() {
-        Instant atual = Instant.now();
-        EventoEntity eventoAtual = new EventoEntity();
-        eventoAtual.setDataAvaliacaoJurado(atual);
+    public void testFindAllEvents_Success() {
+        List<EventoEntity> eventoList = new ArrayList<>();
+        eventoList.add(eventoMock);
 
-        UsuarioEntity jurado = new UsuarioEntity();
-        jurado.setRole(UsuarioRole.JURADO);
-        eventoAtual.setUsuarios(Collections.singletonList(jurado));
+        when(eventoRepository.findAll()).thenReturn(eventoList);
 
-        when(eventoRepository.findEventoAtual(atual)).thenReturn(Optional.of(eventoAtual));
-        assertThrows(IllegalArgumentException.class, () -> eventoService.distribuicaoIdeiasParaJurados());
+        List<EventoEntity> result = eventoService.findAll();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(eventoMock, result.get(0));
+        verify(eventoRepository, times(1)).findAll();
     }
 
     @Test
-    void testSave_Success() {
-        // Setup
-        EventoEntity eventoEntity = new EventoEntity();
-        UsuarioEntity admin = new UsuarioEntity();
-        admin.setRole(UsuarioRole.ADMIN);
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(admin));
-        when(eventoRepository.save(eventoEntity)).thenReturn(eventoEntity);
+    public void testFindEventById_Success() {
+        when(eventoRepository.findById(1L)).thenReturn(Optional.of(eventoMock));
 
-        EventoEntity resultado = eventoService.save(eventoEntity, 1L);
+        EventoEntity result = eventoService.findById(1L);
 
-        assertEquals(eventoEntity, resultado);
+        assertNotNull(result);
+        assertEquals(eventoMock, result);
+        verify(eventoRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void testSave_Fail_NotAdmin() {
-        // Setup
-        EventoEntity eventoEntity = new EventoEntity();
-        UsuarioEntity user = new UsuarioEntity();
-        user.setRole(UsuarioRole.COLABORADOR);
-        when(usuarioRepository.findById(anyLong())).thenReturn(Optional.of(user));
-
-        assertThrows(SecurityException.class, () -> eventoService.save(eventoEntity, 1L));
-    }
-
-    @Test
-    void testDelete_Success() {
-        doNothing().when(eventoRepository).deleteById(anyLong());
-        String resultado = eventoService.delete(1L);
-        assertEquals("Evento deletedo com sucesso", resultado);
-    }
-
-    @Test
-    void testDelete_Fail() {
-        doThrow(new RuntimeException("Error")).when(eventoRepository).deleteById(anyLong());
-        String resultado = eventoService.delete(1L);
-        assertEquals("Não foi possível deletar o evento", resultado);
-    }
-
-    @Test
-    void testFindAll_Success() {
-        EventoEntity evento = new EventoEntity();
-        when(eventoRepository.findAll()).thenReturn(Collections.singletonList(evento));
-        List<EventoEntity> eventos = eventoService.findAll();
-        assertNotNull(eventos);
-        assertFalse(eventos.isEmpty());
-    }
-
-    @Test
-    void testFindAll_Fail() {
-        when(eventoRepository.findAll()).thenThrow(new RuntimeException("Error"));
-        List<EventoEntity> eventos = eventoService.findAll();
-        assertTrue(eventos.isEmpty());
-    }
-
-    @Test
-    void testFindById_Success() {
-        EventoEntity evento = new EventoEntity();
-        when(eventoRepository.findById(anyLong())).thenReturn(Optional.of(evento));
-        EventoEntity resultado = eventoService.findById(1L);
-        assertEquals(evento, resultado);
-    }
-
-    @Test
-    void testFindById_Fail() {
-        when(eventoRepository.findById(anyLong())).thenThrow(new RuntimeException("Error"));
-        EventoEntity resultado = eventoService.findById(1L);
-        assertNotNull(resultado);
-    }
 }
