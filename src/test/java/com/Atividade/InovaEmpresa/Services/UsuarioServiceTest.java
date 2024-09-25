@@ -7,111 +7,266 @@ import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class UsuarioServiceTest {
+class UsuarioServiceTest {
 
-    @Autowired
-    private UsuarioService usuarioService;
-
-    @MockBean
+    @Mock
     private UsuarioRepository usuarioRepository;
 
-    @MockBean
+    @Mock
     private EventoRepository eventoRepository;
 
-    private UsuarioEntity usuario;
-    private EventoEntity evento;
+    @InjectMocks
+    private UsuarioService usuarioService;
+
+    private UsuarioEntity testUsuario;
+    private EventoEntity testEvento;
 
     @BeforeEach
     void setUp() {
-        usuario = new UsuarioEntity();
-        usuario.setId(1L);
-        usuario.setNome("Gustavo");
-        usuario.setEmail("gustavo@example.com");
-        usuario.setRole(UsuarioRole.COLABORADOR);
+        testUsuario = new UsuarioEntity();
+        testUsuario.setId(1L);
+        testUsuario.setNome("Test User");
+        testUsuario.setEmail("test@example.com");
 
-        evento = new EventoEntity();
-        evento.setId(1L);
-        evento.setNome("Evento Teste");
-        evento.setUsuarios(new ArrayList<>());
+        testEvento = new EventoEntity();
+        testEvento.setId(1L);
+        testEvento.setNome("Test Event");
     }
 
     @Test
-    void testDeleteUsuario() {
-        doNothing().when(usuarioRepository).deleteById(1L);
+    void testSave() {
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(testEvento));
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(testUsuario);
+
+        UsuarioEntity result = usuarioService.save(testUsuario);
+
+        assertNotNull(result);
+        assertEquals(testUsuario, result);
+        assertEquals(UsuarioRole.COLABORADOR, result.getRole());
+        verify(eventoRepository).save(any(EventoEntity.class));
+        verify(usuarioRepository).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testSaveWithoutEvent() {
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.empty());
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(testUsuario);
+
+        UsuarioEntity result = usuarioService.save(testUsuario);
+
+        assertNotNull(result);
+        assertEquals(testUsuario, result);
+        assertEquals(UsuarioRole.COLABORADOR, result.getRole());
+        verify(usuarioRepository).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testSaveException() {
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenThrow(new RuntimeException("Test exception"));
+
+        UsuarioEntity result = usuarioService.save(testUsuario);
+
+        assertNotNull(result);
+        assertTrue(result.getId() == null);
+    }
+
+    @Test
+    void testDelete() {
+        doNothing().when(usuarioRepository).deleteById(anyLong());
 
         String result = usuarioService.delete(1L);
 
         assertEquals("Usuario deletedo com sucesso", result);
-        verify(usuarioRepository, times(1)).deleteById(1L);
+        verify(usuarioRepository).deleteById(1L);
     }
 
     @Test
-    void testUpdateUsuarioAdmin() {
-        UsuarioEntity logado = new UsuarioEntity();
-        logado.setId(2L);
-        logado.setRole(UsuarioRole.ADMIN);
+    void testDeleteException() {
+        doThrow(new RuntimeException("Test exception")).when(usuarioRepository).deleteById(anyLong());
 
-        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
-        when(usuarioRepository.findById(2L)).thenReturn(Optional.of(logado));
-        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(usuario);
+        String result = usuarioService.delete(1L);
 
-        UsuarioEntity updatedUsuario = usuarioService.update(usuario, 2L, 1L);
+        assertEquals("Não foi possível deletar o usuario", result);
+    }
 
-        assertNotNull(updatedUsuario);
-        assertEquals(UsuarioRole.COLABORADOR, updatedUsuario.getRole());
-        verify(usuarioRepository, times(1)).save(any(UsuarioEntity.class));
+    @Test
+    void testUpdate() {
+        UsuarioEntity existingUser = new UsuarioEntity();
+        existingUser.setId(1L);
+        existingUser.setNome("Existing User");
+        existingUser.setEmail("existing@example.com");
+        existingUser.setRole(UsuarioRole.COLABORADOR);
+
+        UsuarioEntity loggedInAdmin = new UsuarioEntity();
+        loggedInAdmin.setId(2L);
+        loggedInAdmin.setRole(UsuarioRole.ADMIN);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(existingUser));
+        when(usuarioRepository.findById(2L)).thenReturn(Optional.of(loggedInAdmin));
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(existingUser);
+
+        UsuarioEntity updatedUser = new UsuarioEntity();
+        updatedUser.setNome("Updated User");
+        updatedUser.setEmail("updated@example.com");
+        updatedUser.setRole(UsuarioRole.JURADO);
+
+        UsuarioEntity result = usuarioService.update(updatedUser, 2L, 1L);
+
+        assertNotNull(result);
+        assertEquals("Updated User", result.getNome());
+        assertEquals("updated@example.com", result.getEmail());
+        assertEquals(UsuarioRole.JURADO, result.getRole());
+        verify(usuarioRepository).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testUpdateNonAdminUser() {
+        UsuarioEntity existingUser = new UsuarioEntity();
+        existingUser.setId(1L);
+        existingUser.setNome("Existing User");
+        existingUser.setEmail("existing@example.com");
+        existingUser.setRole(UsuarioRole.COLABORADOR);
+
+        UsuarioEntity loggedInUser = new UsuarioEntity();
+        loggedInUser.setId(2L);
+        loggedInUser.setRole(UsuarioRole.COLABORADOR);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(existingUser));
+        when(usuarioRepository.findById(2L)).thenReturn(Optional.of(loggedInUser));
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(existingUser);
+
+        UsuarioEntity updatedUser = new UsuarioEntity();
+        updatedUser.setNome("Updated User");
+        updatedUser.setEmail("updated@example.com");
+        updatedUser.setRole(UsuarioRole.JURADO);
+
+        UsuarioEntity result = usuarioService.update(updatedUser, 2L, 1L);
+
+        assertNotNull(result);
+        assertEquals("Updated User", result.getNome());
+        assertEquals("updated@example.com", result.getEmail());
+        assertEquals(UsuarioRole.COLABORADOR, result.getRole());
+        verify(usuarioRepository).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testUpdateException() {
+        when(usuarioRepository.findById(anyLong())).thenThrow(new RuntimeException("Test exception"));
+
+        UsuarioEntity result = usuarioService.update(new UsuarioEntity(), 1L, 1L);
+
+        assertNotNull(result);
+        assertTrue(result.getId() == null);
     }
 
     @Test
     void testFindAll() {
-        List<UsuarioEntity> usuarios = List.of(usuario);
+        List<UsuarioEntity> userList = List.of(testUsuario);
+        when(usuarioRepository.findAll()).thenReturn(userList);
 
-        when(usuarioRepository.findAll()).thenReturn(usuarios);
+        List<UsuarioEntity> result = usuarioService.findAll();
 
-        List<UsuarioEntity> foundUsuarios = usuarioService.findAll();
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(testUsuario, result.get(0));
+    }
 
-        assertEquals(1, foundUsuarios.size());
-        verify(usuarioRepository, times(1)).findAll();
+    @Test
+    void testFindAllException() {
+        when(usuarioRepository.findAll()).thenThrow(new RuntimeException("Test exception"));
+
+        List<UsuarioEntity> result = usuarioService.findAll();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 
     @Test
     void testFindById() {
-        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(testUsuario));
 
-        UsuarioEntity foundUsuario = usuarioService.findById(1L);
+        UsuarioEntity result = usuarioService.findById(1L);
 
-        assertNotNull(foundUsuario);
-        assertEquals("Gustavo", foundUsuario.getNome());
-        verify(usuarioRepository, times(1)).findById(1L);
+        assertNotNull(result);
+        assertEquals(testUsuario, result);
+    }
+
+
+
+    @Test
+    void testFindByIdException() {
+        when(usuarioRepository.findById(1L)).thenThrow(new RuntimeException("Test exception"));
+
+        UsuarioEntity result = usuarioService.findById(1L);
+
+        assertNotNull(result);
+        assertTrue(result.getId() == null);
     }
 
     @Test
-    void testAddJuradosComPermissao() {
+    void testAddJurados() {
         UsuarioEntity admin = new UsuarioEntity();
-        admin.setId(2L);
+        admin.setId(1L);
         admin.setRole(UsuarioRole.ADMIN);
 
-        when(usuarioRepository.findById(2L)).thenReturn(Optional.of(admin));
-        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
-        when(usuarioRepository.save(any(UsuarioEntity.class))).thenReturn(usuario);
+        UsuarioEntity user1 = new UsuarioEntity();
+        user1.setId(2L);
+        user1.setRole(UsuarioRole.COLABORADOR);
 
-        List<UsuarioEntity> jurados = usuarioService.addJurados(List.of(1L), 2L);
+        UsuarioEntity user2 = new UsuarioEntity();
+        user2.setId(3L);
+        user2.setRole(UsuarioRole.COLABORADOR);
 
-        assertEquals(1, jurados.size());
-        assertEquals(UsuarioRole.JURADO, jurados.get(0).getRole());
-        verify(usuarioRepository, times(1)).save(any(UsuarioEntity.class));
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(admin));
+        when(usuarioRepository.findById(2L)).thenReturn(Optional.of(user1));
+        when(usuarioRepository.findById(3L)).thenReturn(Optional.of(user2));
+        when(usuarioRepository.save(any(UsuarioEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        List<Long> userIds = List.of(2L, 3L);
+        List<UsuarioEntity> result = usuarioService.addJurados(userIds, 1L);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.stream().allMatch(user -> user.getRole() == UsuarioRole.JURADO));
+        verify(usuarioRepository, times(2)).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testAddJuradosNonAdmin() {
+        UsuarioEntity nonAdmin = new UsuarioEntity();
+        nonAdmin.setId(1L);
+        nonAdmin.setRole(UsuarioRole.COLABORADOR);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(nonAdmin));
+
+        List<Long> userIds = List.of(2L, 3L);
+        List<UsuarioEntity> result = usuarioService.addJurados(userIds, 1L);
+
+        assertTrue(result.isEmpty());
+        verify(usuarioRepository, never()).save(any(UsuarioEntity.class));
+    }
+
+    @Test
+    void testAddJuradosException() {
+        when(usuarioRepository.findById(anyLong())).thenThrow(new RuntimeException("Test exception"));
+
+        List<Long> userIds = List.of(1L, 2L);
+        List<UsuarioEntity> result = usuarioService.addJurados(userIds, 1L);
+
+        assertTrue(result.isEmpty());
     }
 }

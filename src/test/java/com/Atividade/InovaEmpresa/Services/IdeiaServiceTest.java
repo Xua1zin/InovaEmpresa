@@ -9,9 +9,9 @@ import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,18 +21,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class IdeiaServiceTest {
 
-    @InjectMocks
+    @Autowired
     private IdeiaService ideiaService;
 
-    @Mock
+    @MockBean
     private IdeiaRepository ideiaRepository;
 
-    @Mock
+    @MockBean
     private UsuarioRepository usuarioRepository;
 
-    @Mock
+    @MockBean
     private EventoRepository eventoRepository;
 
     private EventoEntity eventoMock;
@@ -41,25 +42,54 @@ class IdeiaServiceTest {
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.openMocks(this);
+        eventoMock = new EventoEntity();
+        eventoMock.setId(1L);
+        eventoMock.setDataFim(Instant.now().plusSeconds(3600));
+        eventoMock.setDataAvaliacaoPopular(Instant.now().minusSeconds(3600));
 
-        // Mocking IdeiaEntity
-        ideiaMock = new IdeiaEntity();
-        ideiaMock.setUsuarios(new ArrayList<>());
-
-        // Mocking UsuarioEntity
         usuarioMock = new UsuarioEntity();
         usuarioMock.setId(1L);
         usuarioMock.setFlIdeia(false);
 
-        // Mocking EventoEntity
-        eventoMock = new EventoEntity();
-        eventoMock.setDataFim(Instant.now().plusSeconds(3600));
+        ideiaMock = new IdeiaEntity();
+        ideiaMock.setId(1L);
+        ideiaMock.setUsuarios(new ArrayList<>());
+        ideiaMock.setAvaliacaoJurado(new ArrayList<>());
     }
 
+    @Test
+    void testResultado_Success() {
+        when(eventoRepository.findById(1L)).thenReturn(Optional.of(eventoMock));
+        when(ideiaRepository.findTopIdeasByEvento(1L)).thenReturn(List.of(ideiaMock));
+
+        List<IdeiaEntity> result = ideiaService.resultado(1L);
+
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+        verify(ideiaRepository, times(1)).findTopIdeasByEvento(1L);
+    }
 
     @Test
-    void testAtribuirNota_UpdateExistingAvaliacao() {
+    void testResultado_BeforeAvaliacaoPopular() {
+        eventoMock.setDataAvaliacaoPopular(Instant.now().plusSeconds(3600));
+        when(eventoRepository.findById(1L)).thenReturn(Optional.of(eventoMock));
+
+        List<IdeiaEntity> result = ideiaService.resultado(1L);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testResultado_EventoNotFound() {
+        when(eventoRepository.findById(1L)).thenReturn(Optional.empty());
+
+        List<IdeiaEntity> result = ideiaService.resultado(1L);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testAtribuirNota_UpdateExisting() {
         AvaliacaoJuradoEntity existingAvaliacao = new AvaliacaoJuradoEntity();
         existingAvaliacao.setUsuarios(List.of(usuarioMock));
         ideiaMock.setAvaliacaoJurado(List.of(existingAvaliacao));
@@ -71,24 +101,31 @@ class IdeiaServiceTest {
     }
 
     @Test
-    void testAddColaboradores_Success() {
-        List<Long> usuarioIds = List.of(1L);
+    void testAtribuirNota_CreateNew() {
+        AvaliacaoJuradoEntity result = IdeiaService.atribuirNota(usuarioMock, ideiaMock, 9.0);
 
+        assertNotNull(result);
+        assertEquals(9.0, result.getNota());
+        assertTrue(ideiaMock.getAvaliacaoJurado().contains(result));
+    }
+
+    @Test
+    void testAddColaboradores_Success() {
         when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideiaMock));
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
         when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaMock);
 
-        IdeiaEntity result = ideiaService.addColaboradores(1L, usuarioIds);
+        IdeiaEntity result = ideiaService.addColaboradores(1L, List.of(1L));
 
         assertNotNull(result);
-        assertTrue(ideiaMock.getUsuarios().contains(usuarioMock));
-        verify(ideiaRepository, times(1)).save(ideiaMock);
+        assertTrue(result.getUsuarios().contains(usuarioMock));
+        verify(usuarioRepository, times(1)).save(usuarioMock);
     }
 
 
 
     @Test
-    void testSaveIdea_Success() {
+    void testSave_Success() {
         when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(eventoMock));
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioMock));
         when(ideiaRepository.save(any(IdeiaEntity.class))).thenReturn(ideiaMock);
@@ -96,20 +133,39 @@ class IdeiaServiceTest {
         IdeiaEntity result = ideiaService.save(ideiaMock, 1L);
 
         assertNotNull(result);
-        verify(ideiaRepository, times(1)).save(ideiaMock);
+        assertTrue(result.getUsuarios().contains(usuarioMock));
+        verify(usuarioRepository, times(1)).save(usuarioMock);
     }
 
 
 
     @Test
-    void testFindAllIdeas_Success() {
+    void testSave_ForaDataLimite() {
+        eventoMock.setDataFim(Instant.now().minusSeconds(3600));
+        when(eventoRepository.findEventoAtual(any(Instant.class))).thenReturn(Optional.of(eventoMock));
+
+        IdeiaEntity result = ideiaService.save(ideiaMock, 1L);
+
+        assertNull(result);
+    }
+
+    @Test
+    void testFindAll_Success() {
         when(ideiaRepository.findAll()).thenReturn(List.of(ideiaMock));
 
         List<IdeiaEntity> result = ideiaService.findAll();
 
-        assertNotNull(result);
         assertFalse(result.isEmpty());
-        verify(ideiaRepository, times(1)).findAll();
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testFindAll_Exception() {
+        when(ideiaRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        List<IdeiaEntity> result = ideiaService.findAll();
+
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -119,9 +175,16 @@ class IdeiaServiceTest {
         IdeiaEntity result = ideiaService.findById(1L);
 
         assertNotNull(result);
-        assertEquals(ideiaMock, result);
-        verify(ideiaRepository, times(1)).findById(1L);
+        assertEquals(ideiaMock.getId(), result.getId());
     }
 
+    @Test
+    void testFindById_NotFound() {
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.empty());
 
+        IdeiaEntity result = ideiaService.findById(1L);
+
+        assertNotNull(result);
+        assertNull(result.getId());
+    }
 }

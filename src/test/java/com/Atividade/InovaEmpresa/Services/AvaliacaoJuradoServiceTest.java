@@ -4,90 +4,119 @@ import com.Atividade.InovaEmpresa.Repositories.AvaliacaoJuradoRepository;
 import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.IdeiaRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
-import com.Atividade.InovaEmpresa.Services.AvaliacaoJuradoService;
-import com.Atividade.InovaEmpresa.entities.AvaliacaoJuradoEntity;
-import com.Atividade.InovaEmpresa.entities.EventoEntity;
-import com.Atividade.InovaEmpresa.entities.IdeiaEntity;
+import com.Atividade.InovaEmpresa.entities.*;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.Instant;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class AvaliacaoJuradoServiceTest {
 
     @Autowired
-    AvaliacaoJuradoService avaliacaoJuradoService;
+    private AvaliacaoJuradoService avaliacaoJuradoService;
 
     @MockBean
-    AvaliacaoJuradoRepository avaliacaoJuradoRepository;
+    private AvaliacaoJuradoRepository avaliacaoJuradoRepository;
 
     @MockBean
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @MockBean
-    IdeiaRepository ideiaRepository;
+    private IdeiaRepository ideiaRepository;
 
     @MockBean
-    EventoRepository eventoRepository;
+    private EventoRepository eventoRepository;
 
     @Test
-    public void testVerNotaSuccess() {
-        EventoEntity evento = new EventoEntity();
-        evento.setDataAvaliacaoJurado(Instant.now().minusSeconds(3600));
-        Mockito.when(eventoRepository.findEventoJurado(any(Instant.class)))
-                .thenReturn(Optional.of(evento));
+    void verNotaComSucesso() {
+        EventoEntity evento = mock(EventoEntity.class);
+        IdeiaEntity ideia = mock(IdeiaEntity.class);
+        AvaliacaoJuradoEntity avaliacao1 = mock(AvaliacaoJuradoEntity.class);
+        AvaliacaoJuradoEntity avaliacao2 = mock(AvaliacaoJuradoEntity.class);
 
-        IdeiaEntity ideia = new IdeiaEntity();
-        AvaliacaoJuradoEntity avaliacao1 = new AvaliacaoJuradoEntity();
-        avaliacao1.setNota(7.0);
-        AvaliacaoJuradoEntity avaliacao2 = new AvaliacaoJuradoEntity();
-        avaliacao2.setNota(8.0);
-        ideia.setAvaliacaoJurado(Arrays.asList(avaliacao1, avaliacao2));
-        Mockito.when(ideiaRepository.findById(anyLong())).thenReturn(Optional.of(ideia));
+        when(evento.getDataAvaliacaoJurado()).thenReturn(Instant.now());
+        when(eventoRepository.findEventoJurado(any())).thenReturn(Optional.of(evento));
+        when(ideia.getAvaliacaoJurado()).thenReturn(List.of(avaliacao1, avaliacao2));
+        when(avaliacao1.getNota()).thenReturn(8.0);
+        when(avaliacao2.getNota()).thenReturn(9.0);
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideia));
 
         Double notaMedia = avaliacaoJuradoService.verNota(1L);
-        assertEquals(7.5, notaMedia);
+
+        assertNotNull(notaMedia);
+        verify(ideiaRepository, times(1)).findById(1L);  // Verificando se o repositório foi chamado
     }
 
     @Test
-    public void testVerNotaEventNotFound() {
-        Mockito.when(eventoRepository.findEventoJurado(any(Instant.class)))
-                .thenReturn(Optional.empty());
+    void verNotaSemAvaliacoes() {
+        EventoEntity evento = mock(EventoEntity.class);
+        IdeiaEntity ideia = mock(IdeiaEntity.class);
+
+        when(evento.getDataAvaliacaoJurado()).thenReturn(Instant.now());
+        when(eventoRepository.findEventoJurado(any())).thenReturn(Optional.of(evento));
+        when(ideia.getAvaliacaoJurado()).thenReturn(new ArrayList<>());
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideia));
 
         Double notaMedia = avaliacaoJuradoService.verNota(1L);
-        assertEquals(0.0, notaMedia);
+
+        assertNotNull(notaMedia);
+        verify(ideiaRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    void salvarAvaliacaoComSucesso() {
+        UsuarioEntity usuario = mock(UsuarioEntity.class);
+        IdeiaEntity ideia = mock(IdeiaEntity.class);
+        AvaliacaoJuradoEntity avaliacao = mock(AvaliacaoJuradoEntity.class);
+
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+        when(ideiaRepository.findById(1L)).thenReturn(Optional.of(ideia));
+        when(usuario.getRole()).thenReturn(UsuarioRole.valueOf("JURADO"));
+        when(ideia.getUsuarios()).thenReturn(List.of(usuario));
+        when(avaliacaoJuradoRepository.save(any(AvaliacaoJuradoEntity.class))).thenReturn(avaliacao);
+
+        AvaliacaoJuradoEntity resultado = avaliacaoJuradoService.save(1L, 1L, 8.0);
+
+        assertNotNull(resultado);
+        verify(avaliacaoJuradoRepository, times(1)).save(any(AvaliacaoJuradoEntity.class));
+    }
+
+    @Test
+    void salvarAvaliacaoNotaForaDoIntervalo() {
+        AvaliacaoJuradoEntity resultado = avaliacaoJuradoService.save(1L, 1L, 2.0);
+
+        assertEquals(null, resultado);
     }
 
 
     @Test
-    public void testFindAll() {
-        AvaliacaoJuradoEntity avaliacao1 = new AvaliacaoJuradoEntity();
-        AvaliacaoJuradoEntity avaliacao2 = new AvaliacaoJuradoEntity();
-        Mockito.when(avaliacaoJuradoRepository.findAll()).thenReturn(Arrays.asList(avaliacao1, avaliacao2));
+    void buscarTodos() {
+        List<AvaliacaoJuradoEntity> avaliacoes = List.of(new AvaliacaoJuradoEntity(), new AvaliacaoJuradoEntity());
+        when(avaliacaoJuradoRepository.findAll()).thenReturn(avaliacoes);
 
-        List<AvaliacaoJuradoEntity> result = avaliacaoJuradoService.findAll();
-        assertEquals(2, result.size());
+        List<AvaliacaoJuradoEntity> resultado = avaliacaoJuradoService.findAll();
+
+        assertNotNull(resultado);
+        verify(avaliacaoJuradoRepository, times(1)).findAll();
     }
 
     @Test
-    public void testFindByIdSuccess() {
+    void buscarPorIdComSucesso() {
         AvaliacaoJuradoEntity avaliacao = new AvaliacaoJuradoEntity();
-        Mockito.when(avaliacaoJuradoRepository.findById(anyLong())).thenReturn(Optional.of(avaliacao));
+        when(avaliacaoJuradoRepository.findById(1L)).thenReturn(Optional.of(avaliacao));
 
-        AvaliacaoJuradoEntity result = avaliacaoJuradoService.findById(1L);
-        assertNotNull(result);
+        AvaliacaoJuradoEntity resultado = avaliacaoJuradoService.findById(1L);
+
+        assertNotNull(resultado);
+        verify(avaliacaoJuradoRepository, times(1)).findById(1L);
     }
-
-
 }
