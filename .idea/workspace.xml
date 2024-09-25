@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6aa52886-75e2-4dcd-a018-fbaf704549f8" name="Changes" comment="funfa">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoJuradoControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/AvaliacaoPopularControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/EventoControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/Atividade/InovaEmpresa/Controllers/IdeiaControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,30 +54,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.InovaEmpresa.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AvaliacaoPopularControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EventoControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EventoServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IdeiaControllerTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IdeiaServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IdeiaServiceTest.testAtribuirNotaFail.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IdeiaServiceTest.testAtribuirNotaSuccess.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioControllerTest.save.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.testAddJuradosSuccess.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.testFindByIdFailure.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.testFindByIdSuccess.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.testUpdateFailure.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UsuarioServiceTest.testUpdateSuccess.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.InovaEmpresa.executor": "Run",
+    "JUnit.AvaliacaoJuradoServiceTest.executor": "Run",
+    "JUnit.AvaliacaoPopularControllerTest.executor": "Run",
+    "JUnit.EventoControllerTest.executor": "Run",
+    "JUnit.EventoServiceTest.executor": "Run",
+    "JUnit.IdeiaControllerTest.executor": "Run",
+    "JUnit.IdeiaServiceTest.executor": "Run",
+    "JUnit.IdeiaServiceTest.testAtribuirNotaFail.executor": "Run",
+    "JUnit.IdeiaServiceTest.testAtribuirNotaSuccess.executor": "Run",
+    "JUnit.UsuarioControllerTest.save.executor": "Run",
+    "JUnit.UsuarioServiceTest.executor": "Run",
+    "JUnit.UsuarioServiceTest.testAddJuradosSuccess.executor": "Run",
+    "JUnit.UsuarioServiceTest.testFindByIdFailure.executor": "Run",
+    "JUnit.UsuarioServiceTest.testFindByIdSuccess.executor": "Run",
+    "JUnit.UsuarioServiceTest.testUpdateFailure.executor": "Run",
+    "JUnit.UsuarioServiceTest.testUpdateSuccess.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "Codigo-arrumado",
+    "kotlin-language-version-configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -89,7 +88,7 @@
       <recent name="com.Atividade.InovaEmpresa.Services" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.com.Atividade.InovaEmpresa in InovaEmpresa">
+  <component name="RunManager" selected="JUnit.AvaliacaoJuradoServiceTest">
     <configuration name="InovaEmpresa" type="Application" factoryName="Application">
       <envs>
         <env name="DB_PASSWORD_inovaEmpresa" value="root" />
@@ -102,16 +101,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AvaliacaoPopularControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AvaliacaoJuradoServiceTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="InovaEmpresa" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Controllers.*" />
+          <option name="PATTERN" value="com.Atividade.InovaEmpresa.Services.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Controllers" />
-      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Controllers.AvaliacaoPopularControllerTest" />
+      <option name="PACKAGE_NAME" value="com.Atividade.InovaEmpresa.Services" />
+      <option name="MAIN_CLASS_NAME" value="com.Atividade.InovaEmpresa.Services.AvaliacaoJuradoServiceTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -179,19 +178,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.InovaEmpresa" />
+      <item itemvalue="JUnit.AvaliacaoJuradoServiceTest" />
       <item itemvalue="JUnit.com.Atividade.InovaEmpresa in InovaEmpresa" />
-      <item itemvalue="JUnit.AvaliacaoPopularControllerTest" />
       <item itemvalue="JUnit.EventoControllerTest" />
       <item itemvalue="JUnit.IdeiaControllerTest" />
       <item itemvalue="JUnit.UsuarioControllerTest.save" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AvaliacaoJuradoServiceTest" />
         <item itemvalue="JUnit.com.Atividade.InovaEmpresa in InovaEmpresa" />
         <item itemvalue="JUnit.UsuarioControllerTest.save" />
         <item itemvalue="JUnit.IdeiaControllerTest" />
         <item itemvalue="JUnit.EventoControllerTest" />
-        <item itemvalue="JUnit.AvaliacaoPopularControllerTest" />
       </list>
     </recent_temporary>
   </component>
