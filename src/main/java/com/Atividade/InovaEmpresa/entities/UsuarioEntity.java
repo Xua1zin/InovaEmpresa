@@ -1,5 +1,8 @@
 package com.Atividade.InovaEmpresa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +38,7 @@ public class UsuarioEntity {
     private boolean flIdeia;
 
     @ManyToMany(mappedBy = "usuarios")
+    @JsonIgnore
     private List<IdeiaEntity> ideias;
 
     @ManyToMany
@@ -43,11 +47,14 @@ public class UsuarioEntity {
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "evento_id")
     )
+    @JsonIgnore
     private List<EventoEntity> eventos;
 
     @ManyToMany(mappedBy = "usuarios")
+    @JsonIgnore
     private List<AvaliacaoJuradoEntity> avaliacaoJurado;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore
     private List<AvaliacaoPopularEntity> avaliacaoPopular; // Atualizado de ManyToMany para OneToMany
 }

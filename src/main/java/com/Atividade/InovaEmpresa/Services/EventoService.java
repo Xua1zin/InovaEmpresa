@@ -28,10 +28,12 @@ public class EventoService {
         try{
             Instant atual = Instant.now();
 
-            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+            EventoEntity eventoAtual = eventoRepository.findEventoJurado(atual)
                     .orElseThrow(() -> new IllegalArgumentException("Nenhum evento atual encontrado"));
 
-            if(atual.equals(eventoAtual.getDataAvaliacaoJurado())) {
+            if (atual.isAfter(eventoAtual.getDataAvaliacaoJurado()) &&
+                    atual.isBefore(eventoAtual.getDataAvaliacaoPopular())) {
+
                 List<IdeiaEntity> ideias = eventoAtual.getIdeias();
                 List<UsuarioEntity> jurados = eventoAtual.getUsuarios().stream()
                         .filter(usuarioEntity -> "JURADO".equals(usuarioEntity.getRole().name()))
@@ -58,7 +60,7 @@ public class EventoService {
                     for (int i = 0; i < quantidadeJuradosPorIdeias; i++) {
                         juradosParaIdeia.add(jurados.get((i + ideia.hashCode()) % numJurados));
                     }
-                    ideia.setUsuarios(juradosParaIdeia);
+                    ideia.getUsuarios().addAll(juradosParaIdeia);
                 }
 
                 ideiaRepository.saveAll(ideias);
@@ -69,16 +71,44 @@ public class EventoService {
                 return null;
             }
         }catch(Exception e){
-            System.out.println("Erro ao distribuir ideias para jurados");
+            System.out.println("Erro ao distribuir ideias para jurados: " + e.getMessage());
             return new EventoEntity();
         }
     }
 
+    public EventoEntity addUsuarioEvento(Long id){
+        try {
+            Instant atual = Instant.now();
+            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+                    .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
+
+            UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
+
+            if (usuarioEntity.getEventos() == null) {
+                usuarioEntity.setEventos(new ArrayList<>());
+            }
+            usuarioEntity.getEventos().add(eventoAtual);
+
+            if (eventoAtual.getUsuarios() == null) {
+                eventoAtual.setUsuarios(new ArrayList<>());
+            }
+            eventoAtual.getUsuarios().add(usuarioEntity);
+
+            usuarioRepository.save(usuarioEntity);
+            return eventoRepository.save(eventoAtual);
+        } catch(Exception e){
+            System.out.println("Não foi possível salvar o evento: "+ e.getMessage());
+            return new EventoEntity();
+        }
+    }
+
+    //Alterado
     public EventoEntity save(EventoEntity eventoEntity, Long id){
         try{
             UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
-            if("ADMIN".equals(usuarioEntity.getRole())){
+            if(usuarioEntity.getRole().toString().equals("ADMIN")){
                 return eventoRepository.save(eventoEntity);
             }else {
                 throw new SecurityException("Apenas administradores podem criar eventos.");

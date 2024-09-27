@@ -58,7 +58,7 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         }
     }
-    @PutMapping("/addJurados/{id}")
+    @PutMapping("/addJurados/{logadoId}")
     public ResponseEntity<List<UsuarioEntity>> addJurados(@RequestBody List<Long> usuariosId,@PathVariable Long logadoId) {
         try {
             return ResponseEntity.ok(usuarioService.addJurados(usuariosId, logadoId));

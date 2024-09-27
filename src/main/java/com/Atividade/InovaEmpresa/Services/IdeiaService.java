@@ -36,7 +36,7 @@ public class IdeiaService {
                 return new ArrayList<>();
             }
         } catch(Exception e){
-            System.out.println("Erro ao encontrar resultados");
+            System.out.println("Erro ao encontrar resultados" + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -75,8 +75,10 @@ public class IdeiaService {
             for(Long id : usuarioId){
                 UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
                         .orElseThrow(() -> new IllegalArgumentException("Usuario com ID " + id + " não econtrado"));
-                if(!ideiaEntity.getUsuarios().contains(usuarioEntity) && usuarioEntity.isFlIdeia()){
+                if(!ideiaEntity.getUsuarios().contains(usuarioEntity) && !usuarioEntity.isFlIdeia()){
+                    usuarioEntity.setFlIdeia(true);
                     ideiaEntity.getUsuarios().add(usuarioEntity);
+                    usuarioRepository.save(usuarioEntity);
                 }
             }
             return ideiaRepository.save(ideiaEntity);
@@ -86,16 +88,17 @@ public class IdeiaService {
         }
     }
 
+    //Alterado
     public IdeiaEntity save(IdeiaEntity ideiaEntity, Long usuarioId){
         try{
             Instant atual = Instant.now();
             EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
                     .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
-            if(atual.equals(eventoAtual.getDataFim()) || atual.isAfter(eventoAtual.getDataFim())) {
+            if(atual.isBefore(eventoAtual.getDataFim())) {
                 UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
                         .orElseThrow(() -> new IllegalArgumentException("Usuario não encontrado"));
 
-                if (usuarioEntity.isFlIdeia()) {
+                if (!usuarioEntity.isFlIdeia()) {
 
                     usuarioEntity.setFlIdeia(true);
                     usuarioRepository.save(usuarioEntity);

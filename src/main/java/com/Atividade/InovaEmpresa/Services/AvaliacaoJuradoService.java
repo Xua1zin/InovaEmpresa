@@ -35,7 +35,7 @@ public class AvaliacaoJuradoService {
         try{
             Instant atual = Instant.now();
 
-            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+            EventoEntity eventoAtual = eventoRepository.findEventoJurado(atual)
                     .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
 
             if(atual.isAfter(eventoAtual.getDataAvaliacaoJurado()) || atual.equals(eventoAtual.getDataAvaliacaoJurado())){
@@ -59,7 +59,7 @@ public class AvaliacaoJuradoService {
                 return 0.0;
             }
         }catch (Exception e){
-            System.out.println("Não foi possível ver a nota");
+            System.out.println("Não foi possível ver a nota"+e.getMessage());
             return 0.0;
         }
     }
@@ -76,7 +76,7 @@ public class AvaliacaoJuradoService {
                 UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
                         .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-                if ("JURADO".equals(usuarioEntity.getRole())) {
+                if (usuarioEntity.getRole().toString().equals("JURADO")) {
                     if (ideiaEntity.getUsuarios().contains(usuarioEntity)) {
                         AvaliacaoJuradoEntity avaliacaoJuradoEntity = IdeiaService.atribuirNota(usuarioEntity, ideiaEntity, nota);
 

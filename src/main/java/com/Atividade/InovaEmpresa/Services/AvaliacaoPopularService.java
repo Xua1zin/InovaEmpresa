@@ -27,7 +27,7 @@ public class AvaliacaoPopularService {
     EventoRepository eventoRepository;
 
     public AvaliacaoPopularEntity votar(Long ideiaId, Long usuarioId){
-        try{
+        try {
             Instant atual = Instant.now();
             UsuarioEntity usuarioEntity = usuarioRepository.findById(usuarioId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
@@ -35,7 +35,7 @@ public class AvaliacaoPopularService {
             IdeiaEntity ideiaEntity = ideiaRepository.findById(ideiaId)
                     .orElseThrow(() -> new IllegalArgumentException("Ideia não encontrada"));
 
-            EventoEntity eventoAtual = eventoRepository.findEventoAtual(atual)
+            EventoEntity eventoAtual = eventoRepository.findEventoPopular(atual)
                     .orElseThrow(() -> new IllegalArgumentException("Nenhum evento ativo encontrado"));
 
             List<IdeiaEntity> topIdeias = ideiaRepository.findTop10ByJurados(eventoAtual.getId());
@@ -45,8 +45,8 @@ public class AvaliacaoPopularService {
 
             if (!isTop10) {
                 throw new IllegalArgumentException("A ideia não está entre as top 10 ideias do evento.");
-            }else {
-                if (atual.equals(ideiaEntity.getEvento().getDataAvaliacaoJurado())) {
+            } else {
+                if (atual.equals(ideiaEntity.getEvento().getDataAvaliacaoPopular()) || atual.isAfter(ideiaEntity.getEvento().getDataAvaliacaoPopular())) {
                     Optional<AvaliacaoPopularEntity> avaliacaoExistente =
                             avaliacaoPopularRepository.findByUsuarioIdAndEventoId(usuarioId, ideiaEntity.getEvento().getId());
 
@@ -65,11 +65,12 @@ public class AvaliacaoPopularService {
                     return null;
                 }
             }
-        }catch (Exception e){
-            System.out.println("Erro ao votar");
+        } catch (Exception e) {
+            System.out.println("Erro ao votar: " + e.getMessage());
             return new AvaliacaoPopularEntity();
         }
     }
+
 
     public AvaliacaoPopularEntity findById(Long id){
         try{

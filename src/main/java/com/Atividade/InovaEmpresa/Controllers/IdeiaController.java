@@ -14,7 +14,7 @@ public class IdeiaController {
     @Autowired
     private IdeiaService ideiaService;
 
-    @GetMapping("/{eventoId}/resultado")
+    @GetMapping("/resultado/{eventoId}")
     public ResponseEntity<List<IdeiaEntity>> resultado(@PathVariable Long eventoId){
         try{
             return ResponseEntity.ok(ideiaService.resultado(eventoId));
@@ -50,7 +50,7 @@ public class IdeiaController {
         }
     }
 
-    @PutMapping("/addColaboradores/{id}")
+    @PutMapping("/addColaboradores/{ideiaId}")
     public ResponseEntity<IdeiaEntity> addColaboradores(@PathVariable Long ideiaId, @RequestBody List<Long> UsuariosId) {
         try {
             return ResponseEntity.ok(ideiaService.addColaboradores(ideiaId, UsuariosId));

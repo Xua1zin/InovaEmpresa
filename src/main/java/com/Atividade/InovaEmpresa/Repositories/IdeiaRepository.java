@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface IdeiaRepository extends JpaRepository<IdeiaEntity, Long> {
     @Query(value = "SELECT i.* FROM ideia i " +
-            "JOIN avaliacao_popular ap ON i.id = ap.ideia_id " +
+            "JOIN avaliacao_jurado aj ON i.id = aj.ideia_id " +
             "WHERE i.evento_id = ?1 " +
             "GROUP BY i.id " +
-            "ORDER BY AVG(ap.nota) DESC " +
+            "ORDER BY AVG(aj.nota) DESC " +
             "LIMIT 10", nativeQuery = true)
     List<IdeiaEntity> findTop10ByJurados(@Param("eventoId") Long eventoId);
 
@@ -20,7 +20,6 @@ public interface IdeiaRepository extends JpaRepository<IdeiaEntity, Long> {
             "JOIN avaliacao_popular ap ON i.id = ap.ideia_id " +
             "WHERE ap.evento_id = ?1 " +
             "GROUP BY i.id " +
-            "ORDER BY AVG(ap.nota) DESC", nativeQuery = true)
+            "ORDER BY COUNT(ap.id) DESC", nativeQuery = true)
     List<IdeiaEntity> findTopIdeasByEvento(@Param("eventoId") Long eventoId);
-
 }

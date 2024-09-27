@@ -1,5 +1,8 @@
 package com.Atividade.InovaEmpresa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +23,7 @@ public class AvaliacaoPopularEntity {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonIgnore
     private UsuarioEntity usuario;
 
     @ManyToOne
@@ -28,5 +32,6 @@ public class AvaliacaoPopularEntity {
 
     @ManyToOne
     @JoinColumn(name = "evento_id")
+    @JsonIgnore
     private EventoEntity evento;
 }

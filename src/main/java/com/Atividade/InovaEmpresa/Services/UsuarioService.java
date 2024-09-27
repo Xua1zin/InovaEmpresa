@@ -1,23 +1,47 @@
 package com.Atividade.InovaEmpresa.Services;
 
+import com.Atividade.InovaEmpresa.Repositories.EventoRepository;
 import com.Atividade.InovaEmpresa.Repositories.UsuarioRepository;
+import com.Atividade.InovaEmpresa.entities.EventoEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioEntity;
 import com.Atividade.InovaEmpresa.entities.UsuarioRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
+    //Alterado
+    @Autowired
+    EventoRepository eventoRepository;
 
+    //Alterado
     public UsuarioEntity save(UsuarioEntity usuarioEntity){
         try{
+            Instant atual = Instant.now();
+            Optional<EventoEntity> eventoAtualOpt = eventoRepository.findEventoAtual(atual);
+            if (eventoAtualOpt.isPresent()) {
+                EventoEntity eventoAtual = eventoAtualOpt.get();
+                if (usuarioEntity.getEventos() == null) {
+                    usuarioEntity.setEventos(new ArrayList<>());
+                }
+                usuarioEntity.getEventos().add(eventoAtual);
+
+                if (eventoAtual.getUsuarios() == null) {
+                    eventoAtual.setUsuarios(new ArrayList<>());
+                }
+                eventoAtual.getUsuarios().add(usuarioEntity);
+                eventoRepository.save(eventoAtual);
+            }
+
             usuarioEntity.setFlIdeia(false);
-            usuarioEntity.setRole(UsuarioRole.valueOf("COLABORADOR"));
+            usuarioEntity.setRole(UsuarioRole.COLABORADOR);
             return usuarioRepository.save(usuarioEntity);
         } catch(Exception e){
             System.out.println("Não foi possível salvar o usuario: "+ e.getMessage());
@@ -35,6 +59,7 @@ public class UsuarioService {
         }
     }
 
+    //alterado
     public UsuarioEntity update(UsuarioEntity usuarioEntity, Long logadoId, Long id) {
         try {
             UsuarioEntity usuarioExistente = usuarioRepository.findById(id)
@@ -43,10 +68,8 @@ public class UsuarioService {
             UsuarioEntity usuarioLogado = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
 
-            if ("ADMIN".equals(usuarioLogado.getRole()) && !usuarioEntity.getRole().equals(usuarioExistente.getRole())) {
+            if (usuarioLogado.getRole().toString().equals("ADMIN")) {
                 usuarioExistente.setRole(usuarioEntity.getRole());
-            } else {
-                throw new SecurityException("Apenas administradores podem alterar a role de outros usuários.");
             }
 
             usuarioExistente.setNome(usuarioEntity.getNome());
@@ -81,27 +104,31 @@ public class UsuarioService {
         }
     }
 
+    //Alterado
     public List<UsuarioEntity> addJurados(List<Long> usuariosId, Long logadoId) {
+        List<UsuarioEntity> updatedJurados = new ArrayList<>();
         try {
             UsuarioEntity logadoEntity = usuarioRepository.findById(logadoId)
                     .orElseThrow(() -> new IllegalArgumentException("Usuário logado não encontrado"));
-            if ("ADMIN".equals(logadoEntity.getRole())) {
-                List<UsuarioEntity> usuarioEntitylist = new ArrayList<>();
-                for (Long id : usuariosId) {
-                    UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
-                            .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
 
-                    usuarioEntity.setRole(UsuarioRole.valueOf("JURADO"));
-                    usuarioEntitylist.add(usuarioEntity);
-                }
-                return usuarioEntitylist;
-            } else {
+            if (!logadoEntity.getRole().equals(UsuarioRole.ADMIN)) {
                 throw new SecurityException("Acesso negado, usuário não é um admin");
             }
+
+            for (Long id : usuariosId) {
+                UsuarioEntity usuarioEntity = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado: " + id));
+
+                usuarioEntity.setRole(UsuarioRole.JURADO);
+                updatedJurados.add(usuarioEntity);
+                usuarioRepository.save(usuarioEntity);
+            }
+            return updatedJurados;
         } catch (Exception e) {
-            System.out.println("Não foi possível adicionar Jurados" + e.getMessage());
+            System.out.println("Não foi possível adicionar Jurados: " + e.getMessage());
             return new ArrayList<>();
         }
     }
+
 
 }
